@@ -1,0 +1,87 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Index Page
+{% endblock title %}
+{% block content %}
+<style>
+    
+    img {
+      --g: 4px; /* the gap */
+      --b: 12px; /* border thickness */
+      --c: #669706; /* the default color, but will be overridden */
+      
+      width: 200px; /* Image width */
+      height: 200px; /* Image height */
+      padding: calc(var(--g) + var(--b));
+      --_c: #0000 0 25%, var(--c) 0 50%;
+      --_g1: repeating-linear-gradient(90deg, var(--_c)) repeat-x;
+      --_g2: repeating-linear-gradient(180deg, var(--_c)) repeat-y;
+      background: var(--_g1) var(--_p, 25%) 0, var(--_g2) 0 var(--_p, 125%),
+        var(--_g1) var(--_p, 125%) 100%, var(--_g2) 100% var(--_p, 25%);
+      background-size: 200% var(--b), var(--b) 200%;
+      cursor: pointer;
+      filter: grayscale(50%);
+      transition: 0.3s;
+    }
+    
+    img:hover {
+      --_p: 75%;
+      filter: grayscale(0%);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgb(216, 165, 237);
+    }
+
+    .image-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px; /* gap between rows */
+    }
+
+    .image-row {
+      display: flex;
+      gap: 30px; /* gap between images in each row */
+    }
+
+    .image-wrapper {
+      text-align: center; /* Align image and label in the center */
+    }
+
+    .image-label {
+      margin-top: 10px; /* Space between the image and its label */
+      font-size: 16px; /* Font size for the label */
+      color: #333; /* Label color */
+    }
+
+</style>
+
+<div class="image-container">
+  <div class="image-row">
+    <div class="image-wrapper">
+      <img src="https://picsum.photos/id/1039/200/200" style="--c: #ff5733;">
+      <div class="image-label">Image 1</div>
+    </div>
+    <div class="image-wrapper">
+      <img src="https://picsum.photos/id/1032/200/200" style="--c: #3498db;">
+      <div class="image-label">Image 2</div>
+    </div>
+  </div>
+  <div class="image-row">
+    <div class="image-wrapper">
+      <img src="https://picsum.photos/id/1039/200/200" style="--c: #960909;">
+      <div class="image-label">Image 3</div>
+    </div>
+    <div class="image-wrapper">
+      <img src="https://picsum.photos/id/1032/200/200" style="--c: #c00ff1;">
+      <div class="image-label">Image 4</div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

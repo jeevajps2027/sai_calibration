@@ -1,0 +1,356 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Calibration Input
+{% endblock title %}
+{% block content %}
+<style>
+    #box0{
+        height: 630px;
+        width: 1050px;
+        margin-left: 50px;
+        border: 2px solid black;
+        background-color:#fae6d8;
+        border-radius: 20px;
+    }
+    #box1{
+        height: 80px;
+        width: 900px;
+        margin-top: 10px;
+        margin-left: 50px;
+        border: 2px solid black;
+        background-color:#dcc4f8;
+        border-radius: 5px;
+    }
+    #box2{
+        height: 500px;
+        width: 900px;
+        margin-top: 10px;
+        margin-left: 50px;
+        border: 2px solid black;
+        background-color: #f8c4e2;
+    }
+    .box-1 {
+        display: flex;
+        gap: 10px; /* Space between labels */
+    }
+
+    body{
+        background-color: #1a7d9e;
+    }
+
+    .inner-box-1, .inner-box-2, .inner-box-3, .inner-box-4{
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 2px solid #ccc;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-left: 30px;
+        height: 50px;
+        width:180px;
+  }
+
+  label {
+    display: inline-block;
+    width: 150px;
+    margin-top: 15px;
+    text-align:  right;
+    margin-left: 20px;
+    font-weight: bold;
+    
+}
+select {
+    margin-top: 10px;
+    box-sizing: border-box;
+    width: 25%;
+    height: 30px;
+    margin-left: 10px;
+}
+
+input{
+    margin-left: 10px;
+    width: 25%;
+}
+
+
+   /* Style for the input field */
+#search-input {
+        width: 600px;
+        padding: 8px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        margin-left: -20px;
+ }
+
+/* Add custom outline when input is focused */
+#search-input:focus {
+    border-color: #904caf;
+    box-shadow: 0 0 8px #904caf;
+}
+#customer_address{
+    width: 400px;
+    height: 200px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+/* code for previous and next button */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+button {
+    background-color: #d1c4e9; /* Soft Violet */
+    color: #4a4a4a; /* Dark Grey */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.prev-button {
+    margin-right: 10px;
+    width: 150px;
+    background-color: orangered;
+   
+}
+
+.next-button {
+    margin-left: 10px;
+    width: 150px;
+    background-color: rgb(11, 224, 11);
+   
+}
+/* for table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+#a4_sheet{
+    width: 793.7px;
+    height: 1122.5px;
+    background-color: white;
+    margin-left: 20px;
+    margin-top: 20px;
+    border: 2px solid black;
+}
+
+
+</style>
+
+<div class="box-0" id="box0">
+    <div class="box-1" id="box1">
+        <label class="inner-box-1" id="customer_details"  onclick="enlargeItem(1),showItem('item-1')" >CUSTOMER DETAILS</label>
+        <label class="inner-box-2" id="traceability" onclick="enlargeItem(2),showItem('item-2')" >DESCRIBTION</label>
+        <label class="inner-box-3" id="master" onclick="enlargeItem(3),showItem('item-3')" >REFERENCE</label>
+        <label class="inner-box-4" id="engineer_details" onclick="enlargeItem(4),showItem('item-4')">CALIB RESULT</label>
+    </div>
+<div class="box-2" id="box2" style="overflow-x: auto;overflow-y:auto;">
+    <div class="item item-1" id="item1">
+        <label for="search" style="width: 200px;margin-top: 30px;">SEARCH CUSTOMER:</label>
+                <input list="customers" id="search-input" style="width: 600px;margin-left: 30px;">
+                <datalist id="customers">
+                    <option value="Customer 1">
+                    <option value="Customer 2">
+                    <option value="Customer 3">
+                    <option value="Customer 4">
+                </datalist><br><br>
+
+        <textarea id="customer_address"></textarea>
+        <div class="navigation-buttons">
+            <button class="prev-button">
+                &#8592; Previous
+            </button>
+            <button class="next-button">
+                Next &#8594;
+            </button>
+        </div>
+        
+    </div>
+    <div class="item item-2" id="item2" style="overflow-x: auto;overflow-y:auto;">
+        <label for="customer_name">RANGE:</label>
+        <input type="text" id="customer_name" name="customer_name" value="" required>
+
+        <label for="least_count">L.C:</label>
+        <select id="least_count" name="least_count" required>
+            <option>0.001</option>
+            <option>0.0005</option>
+            <option>0.0001</option>
+        </select>
+        <br>
+
+
+        <label for="identification_no">IDENTIFICATION NO:</label>
+        <input type="text" id="identification_no" name="identification_no" value="" required>
+
+        <label for="si_no">SI.NO:</label>
+        <input type="text" id="si_no" name="si_no" value="" required><br>
+
+        <label for="make">MAKE:</label>
+        <input type="text" id="make" name="make" value="" required>
+
+        <label for="customer_ref">CUSTOMER'S REFERENCE:</label>
+        <input type="text" id="customer_ref" name="customer_ref" value="" required><br>
+
+        <label for="date">DATE:</label>
+        <input type="text" id="date" name="date" value="" required>
+
+        <label for="date_of_receipt">DATE OF RECEIPT:</label>
+        <input type="text" id="date_of_receipt" name="date_of_receipt" value="" required><br>
+
+        <label for="calib_procedure_no">CALIBRATION PROCEDURE NO:</label>
+        <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="" required>
+
+        <label for="location">LOCATION:</label>
+        <input type="text" id="location" name="location" value="" required><br>
+
+        <label for="environment">ENVIRONMENT CONDITION:</label>
+        <input type="text" id="environment" name="environment" value="" required>
+
+        <label for="uncertainity">UNCERTAINITY OF MEASUREMENT:</label>
+        <input type="text" id="uncertainity" name="uncertainity" value="" required><br>
+
+
+
+        <div class="navigation-buttons">
+            <button class="prev-button">
+                &#8592; Previous
+            </button>
+            <button class="next-button">
+                Next &#8594;
+            </button>
+        </div>
+    </div>
+   <div class="item item-3" id="item3">
+    <label style="margin-top: 20px; width: 60%;">
+        <b>1.REFERENCE STANDARDS & EQUIPMENTS USED FOR CALIBRATION:</b>
+    </label>
+    <br>
+    
+    <!-- Group 1 Radio Buttons -->
+    <div class="radio-group">
+        <label style="width:300px">
+            <input type="radio" name="group1" value="1"> Setting Plug Traceability
+        </label>
+        <label style="width:300px">
+            <input type="radio" name="group1" value="2"> Setting Ring Traceability
+        </label>
+    </div>
+    
+    <br>
+    
+    <label style="margin-left: 0px;margin-top: 0px; width: 225px;">
+        <b>2.CALIBRATION RESULTS:</b>
+    </label>
+    <br>
+
+    <!-- Group 2 Radio Buttons -->
+    <div class="radio-group">
+        <label style="width:260px">
+            <input type="radio" name="group2" value="1"> Setting Plug Master
+        </label>
+        <label style="width:250px">
+            <input type="radio" name="group2" value="2"> Setting Ring Master
+        </label>
+    </div>
+
+    <table border="1" style="margin-top: 10px;">
+        <thead>
+            <tr>
+                <th style="width: 5%;">Sr.No</th>
+                <th style="width: 20%;" id="parameter">PARAMETER</th>
+                <th style="width: 20%;" id="ref_size">REFERENCE SIZE</th>
+                <th style="width: 20%;" id="observation_size">OBSERVATION SIZE</th> 
+            </tr>
+        </thead>
+        <tbody id="tableBody-2">
+            <!-- Rows will be added here -->
+        </tbody>
+    </table><br>
+
+
+    <div class="navigation-buttons">
+        <button class="prev-button">
+            &#8592; Previous
+        </button>
+        <button class="next-button">
+            Next &#8594;
+        </button>
+    </div>
+</div>
+
+
+    <div class="item item-4" id="item4">
+        <div id="a4_sheet">
+
+        </div>
+        <div class="navigation-buttons">
+            <button class="prev-button">
+                &#8592; Previous
+            </button>
+            <button class="next-button">
+                Next &#8594;
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+    // Function to highlight and enlarge an item
+function enlargeItem(index) {
+    // Remove the highlight from all items
+    document.querySelectorAll('.box-1 > label').forEach(function (el) {
+        el.style.backgroundColor = '';  // Reset background color for all labels
+    });
+
+    // Highlight the clicked item
+    var clickedInnerBox = document.querySelector(`.box-1 .inner-box-${index}`);
+    if (clickedInnerBox) {
+        clickedInnerBox.style.backgroundColor = 'red';  // Highlight the clicked label
+    } else {
+        console.log('No inner-box found with index:', index);
+    }
+}
+
+// Function to display the selected item
+function showItem(itemClassName) {
+    // Hide all items
+    var itemClasses = document.querySelectorAll('.item');
+    itemClasses.forEach(function (item) {
+        item.style.display = 'none';  // Hide all items
+    });
+
+    // Show the selected item
+    var selectedItem = document.querySelector('.' + itemClassName);
+    if (selectedItem) {
+        selectedItem.style.display = 'block';  // Show the selected item
+    } else {
+        console.log('No item found with class:', itemClassName);
+    }
+}
+window.onload = function () {
+    showItem('item-3');
+    document.querySelector('.box-3 .inner-box-3').style.backgroundColor = 'red';
+};
+
+</script>
+
+{% endblock content %}
