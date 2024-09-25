@@ -1,4 +1,5 @@
 {% extends 'app/layouts/main.html' %}
+{% load static %} 
 {% block title %}
 Calibration Input
 {% endblock title %}
@@ -73,6 +74,11 @@ input{
     width: 25%;
 }
 
+#date{
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
 
    /* Style for the input field */
 #search-input {
@@ -91,8 +97,8 @@ input{
     box-shadow: 0 0 8px #904caf;
 }
 #customer_address{
-    width: 400px;
-    height: 200px;
+    width: 500px;
+    height: 180px;
     margin-left: 50px;
     margin-top: 20px;
 }
@@ -142,14 +148,6 @@ th, td {
     padding: 8px;
     text-align: center;
 }
-#a4_sheet{
-    width: 793.7px;
-    height: 1122.5px;
-    background-color: white;
-    margin-left: 20px;
-    margin-top: 20px;
-    border: 2px solid black;
-}
 
 
 </style>
@@ -159,10 +157,15 @@ th, td {
         <label class="inner-box-1" id="customer_details"  onclick="enlargeItem(1),showItem('item-1')" >CUSTOMER DETAILS</label>
         <label class="inner-box-2" id="traceability" onclick="enlargeItem(2),showItem('item-2')" >DESCRIBTION</label>
         <label class="inner-box-3" id="master" onclick="enlargeItem(3),showItem('item-3')" >REFERENCE</label>
-        <label class="inner-box-4" id="engineer_details" onclick="enlargeItem(4),showItem('item-4')">CALIB RESULT</label>
-    </div>
+            </div>
 <div class="box-2" id="box2" style="overflow-x: auto;overflow-y:auto;">
     <div class="item item-1" id="item1">
+        <label for="date">DATE:</label>
+        <input type="text" id="date">
+        
+        <label for="certificate_num">CERTIFICATE NO:</label>
+        <input type="text" id="certificate_num"><br>
+
         <label for="search" style="width: 200px;margin-top: 30px;">SEARCH CUSTOMER:</label>
                 <input list="customers" id="search-input" style="width: 600px;margin-left: 30px;">
                 <datalist id="customers">
@@ -184,14 +187,15 @@ th, td {
         
     </div>
     <div class="item item-2" id="item2" style="overflow-x: auto;overflow-y:auto;">
-        <label for="customer_name">RANGE:</label>
-        <input type="text" id="customer_name" name="customer_name" value="" required>
-
+        <label for="range">RANGE:</label>
+        <input type="text" id="range" name="range" value=" ± 50 um" required class="range-input">
+        
+        
         <label for="least_count">L.C:</label>
         <select id="least_count" name="least_count" required>
-            <option>0.001</option>
-            <option>0.0005</option>
-            <option>0.0001</option>
+            <option>0.001 mm</option>
+            <option>0.0005 mm</option>
+            <option>0.0001 mm</option>
         </select>
         <br>
 
@@ -215,16 +219,16 @@ th, td {
         <input type="text" id="date_of_receipt" name="date_of_receipt" value="" required><br>
 
         <label for="calib_procedure_no">CALIBRATION PROCEDURE NO:</label>
-        <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="" required>
+        <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="M-CP-074" required>
 
         <label for="location">LOCATION:</label>
         <input type="text" id="location" name="location" value="" required><br>
 
         <label for="environment">ENVIRONMENT CONDITION:</label>
-        <input type="text" id="environment" name="environment" value="" required>
+        <input type="text" id="environment" name="environment" value="Temperature: 33.0°C"  readonly>
 
         <label for="uncertainity">UNCERTAINITY OF MEASUREMENT:</label>
-        <input type="text" id="uncertainity" name="uncertainity" value="" required><br>
+        <input type="text" id="uncertainity" name="uncertainity" value="± 2.9 µm (At 95% confidence level with coverage factor K = 2)" readonly><br>
 
 
 
@@ -296,19 +300,7 @@ th, td {
 </div>
 
 
-    <div class="item item-4" id="item4">
-        <div id="a4_sheet">
-
-        </div>
-        <div class="navigation-buttons">
-            <button class="prev-button">
-                &#8592; Previous
-            </button>
-            <button class="next-button">
-                Next &#8594;
-            </button>
-        </div>
-    </div>
+   
 </div>
 </div>
 
@@ -347,10 +339,23 @@ function showItem(itemClassName) {
     }
 }
 window.onload = function () {
-    showItem('item-3');
-    document.querySelector('.box-3 .inner-box-3').style.backgroundColor = 'red';
+    showItem('item-1');
+    document.querySelector('.box-1 .inner-box-1').style.backgroundColor = 'red';
 };
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
+ // Get the current date
+ const today = new Date();
+
+// Format the date as DD-MM-YYYY
+const formattedDate = ('0' + today.getDate()).slice(-2) + '-' + 
+                      ('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+                      today.getFullYear();
+
+// Set the value of the input field
+document.getElementById('date').value = formattedDate;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
 {% endblock content %}
