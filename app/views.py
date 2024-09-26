@@ -204,7 +204,23 @@ def master(request):
 
 
 def calib(request):
-    return render(request,"app/calib.html")
+    if request.method == 'GET':
+        customer_value = Customer.objects.all()
+        SettingPlugTrace_value = SettingPlugTrace.objects.all()
+        SettingRingTrace_value = SettingRingTrace.objects.all()
+        SettingPlugMaster_value = SettingPlugMaster.objects.all()
+        SettingRingMaster_value = SettingRingMaster.objects.all()
+        EngineerManagerDetails_value = EngineerManagerDetails.objects.all()
+
+    context ={
+            'customer_value': customer_value, 
+            'SettingPlugTrace_value': SettingPlugTrace_value,
+            'SettingRingTrace_value': SettingRingTrace_value,
+            'SettingPlugMaster_value' : SettingPlugMaster_value,
+            'SettingRingMaster_value' : SettingRingMaster_value,
+            'EngineerManagerDetails_value' : EngineerManagerDetails_value
+        }
+    return render(request,"app/calib.html",context)
 
 def output(request):
     return render(request,"app/output.html")

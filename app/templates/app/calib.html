@@ -166,13 +166,26 @@ th, td {
         <label for="certificate_num">CERTIFICATE NO:</label>
         <input type="text" id="certificate_num"><br>
 
+        <label for="calib_engineer">Calibration Engineer:</label>
+        <select id="calib_engineer" name="calib_engineer" required>
+            <option>0.001 mm</option>
+            <option>0.0005 mm</option>
+            <option>0.0001 mm</option>
+        </select>
+        
+        <label for="quality_manager">Quality Manager:</label>
+        <select id="quality_manager" name="quality_manager" required>
+            <option>0.001 mm</option>
+            <option>0.0005 mm</option>
+            <option>0.0001 mm</option>
+        </select><br>
+
         <label for="search" style="width: 200px;margin-top: 30px;">SEARCH CUSTOMER:</label>
                 <input list="customers" id="search-input" style="width: 600px;margin-left: 30px;">
                 <datalist id="customers">
-                    <option value="Customer 1">
-                    <option value="Customer 2">
-                    <option value="Customer 3">
-                    <option value="Customer 4">
+                    {% for customer in customer_value %}
+                    <option value="{{ customer.customer_name }}"></option>
+                    {% endfor %}
                 </datalist><br><br>
 
         <textarea id="customer_address"></textarea>
@@ -356,6 +369,7 @@ const formattedDate = ('0' + today.getDate()).slice(-2) + '-' +
 document.getElementById('date').value = formattedDate;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 </script>
 
 {% endblock content %}
