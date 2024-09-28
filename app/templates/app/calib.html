@@ -77,7 +77,7 @@ input{
 #date{
     text-align: center;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 15px;
 }
 
    /* Style for the input field */
@@ -137,19 +137,38 @@ button {
     background-color: rgb(11, 224, 11);
    
 }
-/* for table */
-table {
-    border-collapse: collapse;
-    width: 100%;
+.container{
+    height: 250px;
+    width: 650px;
+    margin-left: 30px;
+    border: 2px solid black;
+    background-color: white;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
+.container1{
+    height: 230px;
+    width: 630px;
+    margin-left: 5px;
 }
 
+#ok_button_Plug{
+    height: 30px;
+    width: 70px;
+    margin-left: 500px;
+    margin-top: 10px;
+    background-color: red;
+    color: white;
 
+}
+#ok_button_Ring{
+    height: 30px;
+    width: 70px;
+    margin-left: 500px;
+    margin-top: 10px;
+    background-color: red;
+    color: white;
+    
+}
 </style>
 
 <div class="box-0" id="box0">
@@ -160,40 +179,56 @@ th, td {
             </div>
 <div class="box-2" id="box2" style="overflow-x: auto;overflow-y:auto;">
     <div class="item item-1" id="item1">
-        <label for="date">DATE:</label>
-        <input type="text" id="date">
         
         <label for="certificate_num">CERTIFICATE NO:</label>
-        <input type="text" id="certificate_num"><br>
+        <select id="certificate_num" name="certificate_num">
+            {% for details in EngineerManagerDetails_value %}
+                <option value="{{ details.certificate_no }}">{{ details.certificate_no }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="date">DATE:</label>
+        <input type="text" id="date" readonly><br>
+
+
+        <label for="date_of_issue">Date of Issue:</label>
+        <input type="text" id="date_of_issue">
+
+        <label for="next_calibration">NEXT CALIBRATION DUE:</label>
+        <input type="text" id="next_calibration" readonly>
+        <br>
+
 
         <label for="calib_engineer">Calibration Engineer:</label>
         <select id="calib_engineer" name="calib_engineer" required>
-            <option>0.001 mm</option>
-            <option>0.0005 mm</option>
-            <option>0.0001 mm</option>
+            {% for details in EngineerManagerDetails_value %}
+                <option value="{{ details.calib_engineer }}">{{ details.calib_engineer }}</option>
+            {% endfor %}
         </select>
         
         <label for="quality_manager">Quality Manager:</label>
         <select id="quality_manager" name="quality_manager" required>
-            <option>0.001 mm</option>
-            <option>0.0005 mm</option>
-            <option>0.0001 mm</option>
+            {% for details in EngineerManagerDetails_value %}
+                <option value="{{ details.quality_manager }}">{{ details.quality_manager }}</option>
+            {% endfor %}
         </select><br>
+        
 
         <label for="search" style="width: 200px;margin-top: 30px;">SEARCH CUSTOMER:</label>
                 <input list="customers" id="search-input" style="width: 600px;margin-left: 30px;">
                 <datalist id="customers">
                     {% for customer in customer_value %}
-                    <option value="{{ customer.customer_name }}"></option>
+                    <option value="{{ customer.customer_name }}" 
+                    data-address="{{ customer.address }}" 
+                    data-primary-email="{{ customer.primary_email }}">
+                </option>
                     {% endfor %}
                 </datalist><br><br>
 
         <textarea id="customer_address"></textarea>
         <div class="navigation-buttons">
-            <button class="prev-button">
-                &#8592; Previous
-            </button>
-            <button class="next-button">
+            
+            <button class="next-button" id="next_button1" style="margin-left: 700px;">
                 Next &#8594;
             </button>
         </div>
@@ -225,8 +260,8 @@ th, td {
         <label for="customer_ref">CUSTOMER'S REFERENCE:</label>
         <input type="text" id="customer_ref" name="customer_ref" value="" required><br>
 
-        <label for="date">DATE:</label>
-        <input type="text" id="date" name="date" value="" required>
+        <label for="date_calib">DATE:</label>
+        <input type="text" id="date_calib" name="date_calib" value="" required>
 
         <label for="date_of_receipt">DATE OF RECEIPT:</label>
         <input type="text" id="date_of_receipt" name="date_of_receipt" value="" required><br>
@@ -246,15 +281,15 @@ th, td {
 
 
         <div class="navigation-buttons">
-            <button class="prev-button">
+            <button class="prev-button" id="prev_button2">
                 &#8592; Previous
             </button>
-            <button class="next-button">
+            <button class="next-button" id="next_button2">
                 Next &#8594;
             </button>
         </div>
     </div>
-   <div class="item item-3" id="item3">
+   <div class="item item-3" id="item3"  style="overflow-x: auto;overflow-y:auto;">
     <label style="margin-top: 20px; width: 60%;">
         <b>1.REFERENCE STANDARDS & EQUIPMENTS USED FOR CALIBRATION:</b>
     </label>
@@ -263,10 +298,10 @@ th, td {
     <!-- Group 1 Radio Buttons -->
     <div class="radio-group">
         <label style="width:300px">
-            <input type="radio" name="group1" value="1"> Setting Plug Traceability
+            <input type="radio" name="group1" value="1" id="setting_plug_trace"> Setting Plug Traceability
         </label>
         <label style="width:300px">
-            <input type="radio" name="group1" value="2"> Setting Ring Traceability
+            <input type="radio" name="group1" value="2" id="setting_ring_trace"> Setting Ring Traceability
         </label>
     </div>
     
@@ -277,36 +312,56 @@ th, td {
     </label>
     <br>
 
-    <!-- Group 2 Radio Buttons -->
-    <div class="radio-group">
-        <label style="width:260px">
-            <input type="radio" name="group2" value="1"> Setting Plug Master
-        </label>
-        <label style="width:250px">
-            <input type="radio" name="group2" value="2"> Setting Ring Master
-        </label>
+  <!-- Group 2 Radio Buttons -->
+<div class="radio-group">
+    <label style="width:260px">
+        <input type="radio" name="group2" value="1" id="setting_plug_master" onclick="toggleVisibility()"> Setting Plug Master
+    </label>
+    <label style="width:250px">
+        <input type="radio" name="group2" value="2" id="setting_ring_master" onclick="toggleVisibility()"> Setting Ring Master
+    </label>
+</div>
+
+<div class="container">
+
+    <!-- Container for Plug Master -->
+    <div class="container1" id="plugMasterContainer" style="overflow-x: auto; overflow-y: auto; display: none;">
+        {% for plug_master in SettingPlugMaster_value %}
+            <div class="form-group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="param-{{ plug_master.id }}" style="width: 200px; margin-right: 10px;">
+                    {{ plug_master.parameter_name }}<br>{{ plug_master.ref_size }}<br>{{ plug_master.nominal }}
+                </label>
+                <input type="text" id="input-{{ plug_master.id }}" name="input-{{ plug_master.id }}">
+                <input type="text" id="output-{{ plug_master.id }}" name="output-{{ plug_master.id }}" readonly>
+            </div>
+        {% endfor %}
+        <button  id="ok_button_Plug">OK</button>
     </div>
 
-    <table border="1" style="margin-top: 10px;">
-        <thead>
-            <tr>
-                <th style="width: 5%;">Sr.No</th>
-                <th style="width: 20%;" id="parameter">PARAMETER</th>
-                <th style="width: 20%;" id="ref_size">REFERENCE SIZE</th>
-                <th style="width: 20%;" id="observation_size">OBSERVATION SIZE</th> 
-            </tr>
-        </thead>
-        <tbody id="tableBody-2">
-            <!-- Rows will be added here -->
-        </tbody>
-    </table><br>
+    <!-- Container for Ring Master -->
+<div class="container1" id="ringMasterContainer" style="overflow-x: auto; overflow-y: auto; display: none;">
+    {% for plug_master in SettingRingMaster_value %}
+        <div class="form-group" style="display: flex; align-items: center; margin-bottom: 10px;">
+            <label for="param-{{ plug_master.id }}" style="width: 200px; margin-right: 10px;">
+                {{ plug_master.parameter_name }}<br>{{ plug_master.ref_size }}<br>{{ plug_master.nominal }}
+            </label>
+            <!-- Dynamically assign unique IDs for input and output fields -->
+            <input type="text" id="input-{{ plug_master.id }}" name="input-{{ plug_master.id }}">
+            <input type="text" id="output-{{ plug_master.id }}" name="output-{{ plug_master.id }}" readonly>
+        </div>
+    {% endfor %}
+    <button  id="ok_button_Ring">OK</button>
+</div>
+
+</div>
+<br>
 
 
     <div class="navigation-buttons">
-        <button class="prev-button">
+        <button class="prev-button" id="prev_button3">
             &#8592; Previous
         </button>
-        <button class="next-button">
+        <button class="next-button" id="final_button">
             Next &#8594;
         </button>
     </div>
@@ -319,7 +374,87 @@ th, td {
 
 
 <script>
-    // Function to highlight and enlarge an item
+      function toggleVisibility() {
+        const plugMasterContainer = document.getElementById('plugMasterContainer');
+        const ringMasterContainer = document.getElementById('ringMasterContainer');
+
+        if (document.getElementById('setting_plug_master').checked) {
+            plugMasterContainer.style.display = 'block';
+            ringMasterContainer.style.display = 'none';
+            calculateValues('plug');
+        } else if (document.getElementById('setting_ring_master').checked) {
+            ringMasterContainer.style.display = 'block';
+            plugMasterContainer.style.display = 'none';
+            calculateValues('ring');
+        }
+    }
+
+    document.getElementById('ok_button_Plug').addEventListener('click', function() {
+    calculateValues('plug', 'SettingPlugMaster_value');
+});
+
+document.getElementById('ok_button_Ring').addEventListener('click', function() {
+    calculateValues('ring', 'SettingRingMaster_value');
+});
+
+function calculateValues(type, settingType) {
+    const formGroups = document.querySelectorAll(`#${type}MasterContainer .form-group`);
+
+formGroups.forEach((group) => {
+    const label = group.querySelector('label');
+    const textContent = label.innerText;
+
+    const lines = textContent.split('\n');
+    const refSize = parseFloat(lines[1].split(' ')[0]); // Get the first number from the second line
+    console.log("refSize", refSize);
+    const nominal = lines[2]; // Get the nominal line
+    console.log("nominal", nominal);
+
+    // Regular expression to match "SET +/-value" with optional space
+    const regex = /^SET\s*([+-]?\d*\.?\d+)$/;
+    const match = nominal.match(regex);
+
+    let value;
+
+    if (match) {
+        // Extract the value directly including the sign (+ or -)
+        value = parseFloat(match[1]); // This will get the numeric part with its sign
+    } else {
+        console.warn("Nominal format is incorrect:", nominal);
+        value = 0; // Default value if format is incorrect
+    }
+
+    console.log("value", value);
+
+    // Perform the calculation directly, adding or subtracting based on the sign of value
+    const result = refSize + value;
+
+    // Format the result to 4 decimal places
+    const formattedResult = result.toFixed(4);
+
+    // Log the output to the console with the correct format
+    console.log(`Ref Size: ${refSize}, Nominal: ${nominal}, Result: ${formattedResult}`);
+
+
+        // Now retrieve the user input and calculate output
+        const inputField = group.querySelector('input[type="text"]:not([readonly])');
+        const outputField = group.querySelector('input[type="text"][readonly]');
+
+        const userInput = parseFloat(inputField.value) || 0; // Get user input, default to 0 if not a number
+        const outputValue = formattedResult - userInput; // Calculate output
+        console.log("formattedResult",formattedResult)
+        console.log("outputValue",outputValue)
+
+        // Update the output field with the result
+        outputField.value = outputValue.toFixed(4); // Format output to 4 decimal places
+    });
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+   // Function to highlight and enlarge an item
 function enlargeItem(index) {
     // Remove the highlight from all items
     document.querySelectorAll('.box-1 > label').forEach(function (el) {
@@ -351,10 +486,45 @@ function showItem(itemClassName) {
         console.log('No item found with class:', itemClassName);
     }
 }
+
+// Function to handle next button click
+function handleNextButton(currentIndex, nextIndex, currentItem, nextItem) {
+    enlargeItem(nextIndex);  // Enlarge the next inner box
+    showItem(nextItem);  // Show the next item
+}
+
+// Function to handle previous button click
+function handlePrevButton(currentIndex, prevIndex, currentItem, prevItem) {
+    enlargeItem(prevIndex);  // Enlarge the previous inner box
+    showItem(prevItem);  // Show the previous item
+}
+
+// On window load, initialize the first item
 window.onload = function () {
     showItem('item-1');
     document.querySelector('.box-1 .inner-box-1').style.backgroundColor = 'red';
+
+    // Next button for item 1
+    document.getElementById('next_button1').onclick = function () {
+        handleNextButton(1, 2, 'item-1', 'item-2');
+    };
+
+    // Next button for item 2
+    document.getElementById('next_button2').onclick = function () {
+        handleNextButton(2, 3, 'item-2', 'item-3');
+    };
+
+    // Previous button for item 2
+    document.getElementById('prev_button2').onclick = function () {
+        handlePrevButton(2, 1, 'item-2', 'item-1');
+    };
+
+    // Previous button for item 3
+    document.getElementById('prev_button3').onclick = function () {
+        handlePrevButton(3, 2, 'item-3', 'item-2');
+    };
 };
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
  // Get the current date
@@ -368,7 +538,170 @@ const formattedDate = ('0' + today.getDate()).slice(-2) + '-' +
 // Set the value of the input field
 document.getElementById('date').value = formattedDate;
 
+// Calculate the next calibration date (one year from today)
+const nextCalibrationDate = new Date(today);
+nextCalibrationDate.setFullYear(today.getFullYear() + 1);
+
+// Format the next calibration date as DD-MM-YYYY
+const formattedNextCalibrationDate = ('0' + nextCalibrationDate.getDate()).slice(-2) + '-' + 
+                                     ('0' + (nextCalibrationDate.getMonth() + 1)).slice(-2) + '-' + 
+                                     nextCalibrationDate.getFullYear();
+
+// Set the value of the 'next_calibration' input field with the next calibration date
+document.getElementById('next_calibration').value = formattedNextCalibrationDate;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+document.getElementById('search-input').addEventListener('input', function() {
+    const inputValue = this.value;
+    const options = document.getElementById('customers').options;
+    
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === inputValue) {
+            // Get the customer name, address, and primary email
+            const customerName = options[i].value; // customer name
+            const address = options[i].getAttribute('data-address') || ''; // address
+            const primaryEmail = options[i].getAttribute('data-primary-email') || ''; // primary email
+
+            // Combine these into a single string
+            document.getElementById('customer_address').value = 
+                ` ${customerName}\n ${address}\n ${primaryEmail}`;
+            break;
+        }
+    }
+});
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+
+
+
+document.getElementById("final_button").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Collect form values from previous fields
+    var date = document.getElementById("date").value;
+    var certificate_num = document.getElementById("certificate_num").value;
+    var next_calibration = document.getElementById("next_calibration").value;
+    var date_of_issue = document.getElementById("date_of_issue").value;
+    var calib_engineer = document.getElementById("calib_engineer").value;
+    var quality_manager = document.getElementById("quality_manager").value;
+    var customer_address = document.getElementById("customer_address").value;
+    
+    // Collect values from the new form fields
+    var range = document.getElementById("range").value;
+    var least_count = document.getElementById("least_count").value;
+    var identification_no = document.getElementById("identification_no").value;
+    var si_no = document.getElementById("si_no").value;
+    var make = document.getElementById("make").value;
+    var customer_ref = document.getElementById("customer_ref").value;
+    var date_calib = document.getElementById("date_calib").value;
+    var date_of_receipt = document.getElementById("date_of_receipt").value;
+    var calib_procedure_no = document.getElementById("calib_procedure_no").value;
+    var location = document.getElementById("location").value;
+    var environment = document.getElementById("environment").value;
+    var uncertainity = document.getElementById("uncertainity").value;
+
+
+    // Collect radio button selections from both groups
+    var group1Selection = document.querySelector('input[name="group1"]:checked').id;
+    var group2Selection = document.querySelector('input[name="group2"]:checked').id;
+
+    
+
+    // Collect values from the dynamic input/output fields
+    var inputValues = {};
+    var outputValues = {};
+    document.querySelectorAll('input[type="text"]').forEach(function(el) {
+        if (el.id.startsWith('input')) {
+            inputValues[el.id] = el.value;
+        } else if (el.id.startsWith('output')) {
+            outputValues[el.id] = el.value;
+        }
+    });
+
+    // Store values in localStorage
+    var formData = {
+        date, certificate_num,next_calibration, calib_engineer,date_of_issue, quality_manager, customer_address,
+        range, least_count, identification_no, si_no, make, customer_ref, date_calib,
+        date_of_receipt, calib_procedure_no, location, environment, uncertainity,
+        group1Selection, group2Selection, inputValues, outputValues
+    };
+    
+    localStorage.setItem('formData', JSON.stringify(formData));
+    console.log("the value which is send to the next page",formData)
+
+
+  
+    // Log all form data to the console
+    console.log("Date:", date);
+    console.log("Certificate Number:", certificate_num);
+
+    console.log("next_calibration:", next_calibration);
+    console.log("date_of_issue:", date_of_issue);
+
+
+    console.log("Calibration Engineer:", calib_engineer);
+    console.log("Quality Manager:", quality_manager);
+    console.log("Customer Address:", customer_address);
+    
+    // Log new form fields
+    console.log("Range:", range);
+    console.log("Least Count:", least_count);
+    console.log("Identification No:", identification_no);
+    console.log("SI No:", si_no);
+    console.log("Make:", make);
+    console.log("Customer Reference:", customer_ref);
+    console.log("Date of Calibration:", date_calib);
+    console.log("Date of Receipt:", date_of_receipt);
+    console.log("Calibration Procedure No:", calib_procedure_no);
+    console.log("Location:", location);
+    console.log("Environment Condition:", environment);
+    console.log("Uncertainty of Measurement:", uncertainity);
+
+
+    console.log("Group 1 Selection: ", group1Selection);
+    console.log("Group 2 Selection: ", group2Selection);
+
+    console.log("Input Values: ", inputValues);
+    console.log("Output Values: ", outputValues);
+
+    // Store the data in sessionStorage
+    // sessionStorage.setItem('date', date);
+    // sessionStorage.setItem('certificate_num', certificate_num);
+    // sessionStorage.setItem('calib_engineer', calib_engineer);
+    // sessionStorage.setItem('quality_manager', quality_manager);
+    // sessionStorage.setItem('customer_address', customer_address);
+    
+    // Store new form fields data
+    // sessionStorage.setItem('range', range);
+    // sessionStorage.setItem('least_count', least_count);
+    // sessionStorage.setItem('identification_no', identification_no);
+    // sessionStorage.setItem('si_no', si_no);
+    // sessionStorage.setItem('make', make);
+    // sessionStorage.setItem('customer_ref', customer_ref);
+    // sessionStorage.setItem('date_calib', date_calib);
+    // sessionStorage.setItem('date_of_receipt', date_of_receipt);
+    // sessionStorage.setItem('calib_procedure_no', calib_procedure_no);
+    // sessionStorage.setItem('location', location);
+    // sessionStorage.setItem('environment', environment);
+    // sessionStorage.setItem('uncertainity', uncertainity);
+
+
+     // Store all data in sessionStorage
+    //  sessionStorage.setItem('group1Selection', group1Selection);
+    // sessionStorage.setItem('group2Selection', group2Selection);
+    // sessionStorage.setItem('inputValues', JSON.stringify(inputValues));
+    // sessionStorage.setItem('outputValues', JSON.stringify(outputValues));
+
+    // Redirect to the next page
+    window.location.href = "/output/"; // Use your next page URL here
+});
+
 
 </script>
 

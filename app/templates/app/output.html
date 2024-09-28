@@ -281,6 +281,12 @@ label::after {
     text-align: center; /* To center the button horizontally */
     margin-top: auto; /* Pushes the button to the bottom */
 }
+th, td {
+    border: 1px solid black;
+    padding: 0px;
+    margin: 0;
+    text-align: center;
+}
 
     </style>
 </head>
@@ -373,10 +379,29 @@ label::after {
                         <th style="width:28%;">Traceability</th> 
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                       
+                <tbody id="tableBody-1" style="display: none;">
+                    {% for data in SettingPlugTrace_value %}
+                    <tr data-id="{{ data.id }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td><input type="text" value="{{ data.master_name }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.id_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.calibration_report_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.valid_upto }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.traceability }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
                     </tr>
+                    {% endfor %}
+                </tbody>
+                <tbody id="tableBody-2" style="display: none;" >
+                    {% for data in SettingRingTrace_value %}
+                    <tr data-id="{{ data.id }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td><input type="text" value="{{ data.master_name }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.id_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.calibration_report_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.valid_upto }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                        <td><input type="text" value="{{ data.traceability }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -397,12 +422,31 @@ label::after {
                         <th style="width:15%;">Error</th> 
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                       
-                    </tr>
-                    
-                </tbody>
+                    <tbody id="tableBody-3" style="display: none;">
+                        {% for data in SettingPlugMaster_value%}
+                        <tr data-id="{{ data.id }}">
+                            <td>{{ forloop.counter }}</td>
+                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                    <tbody id="tableBody-4" style="display: none;" >
+                        {% for data in SettingRingMaster_value%}
+                        <tr data-id="{{ data.id }}">
+                            <td>{{ forloop.counter }}</td>
+                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
             </table>
             
         </div> 
@@ -410,11 +454,11 @@ label::after {
         <div class="container-8">
             <header style="text-align: center;font-size: small;">..... END OF CERTIFICATE .....</header>
             <div class="container8_sub1">
-                <input type="text" style="text-align: center;width: 150px;margin-left: 25px;">
+                <input type="text" style="width: 150px;margin-left: 25px;" id="calibration_engineer_op">
                 <p style="text-align: center;margin-top: 5px;">Calibration Engineer</p>
             </div>
             <div class="container8_sub2">
-                <input type="text" style="text-align: center;width: 150px;margin-left: 25px;">
+                <input type="text" style="width: 150px;margin-left: 25px;" id="quality_manager_op">
                 <p style="text-align: center;margin-top: 5px;">Quality Manager</p>
             </div>
 
@@ -483,6 +527,178 @@ function downloadPDF() {
         // Append each line to the footer
         footer.appendChild(line);
     }
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    // Ensure 'storedFormData' exists and is loaded properly
+    if (storedFormData) {
+        // Existing population logic for other fields (already in your code)
+        document.getElementById("certificate_no_op").value = storedFormData.certificate_num || '';
+        document.getElementById("date_of_issue_op").value = storedFormData.date_of_issue || '';
+        document.getElementById("date_of_calib_op").value = storedFormData.date || '';
+        document.getElementById("next_calibration_op").value = storedFormData.next_calibration || '';
+        document.getElementById("container3_textarea").value = storedFormData.customer_address || '';
+
+
+         // Populating the fields for Description of Instruments section
+         document.getElementById("range_op").value = storedFormData.range || '';
+        document.getElementById("lc_op").value = storedFormData.least_count || '';
+        document.getElementById("identification_no_op").value = storedFormData.identification_no || '';
+        document.getElementById("si_no_op").value = storedFormData.si_no || '';
+        document.getElementById("make_op").value = storedFormData.make || '';
+
+        document.getElementById("customer_ref_op").value = storedFormData.customer_ref || '';
+        document.getElementById("date_op").value = storedFormData.date || '';
+        document.getElementById("date_of_receipt_op").value = storedFormData.date_of_receipt || '';
+        document.getElementById("calib_no_op").value = storedFormData.calib_procedure_no || '';
+        document.getElementById("location_op").value = storedFormData.location || '';
+        document.getElementById("inward_no_op").value = storedFormData.inward_no || '';
+        document.getElementById("environment_op").value = storedFormData.environment || '';
+        document.getElementById("uncertainity_op").value = storedFormData.uncertainity || '';
+
+
+        document.getElementById("calibration_engineer_op").value = storedFormData.calib_engineer || '';
+        document.getElementById("quality_manager_op").value = storedFormData.quality_manager || '';
+
+    } else {
+        console.error("storedFormData is not defined or is empty.");
+    }
+});
+
+
+
+
+
+
+
+
+
+    // Retrieve the stored data
+var storedFormData = JSON.parse(localStorage.getItem('formData'));
+
+if (storedFormData) {
+    console.log("Form Data Retrieved: ", storedFormData);
+
+    console.log("Date: ", storedFormData.date);
+    console.log("next_calibration: ", storedFormData.next_calibration);
+    console.log("date_of_issue: ", storedFormData.date_of_issue);
+    console.log("Certificate Number: ", storedFormData.certificate_num);
+    console.log("Calibration Engineer: ", storedFormData.calib_engineer);
+    console.log("Quality Manager: ", storedFormData.quality_manager);
+    console.log("Customer Address: ", storedFormData.customer_address);
+    
+    console.log("Range: ", storedFormData.range);
+    console.log("Least Count: ", storedFormData.least_count);
+    console.log("Identification Number: ", storedFormData.identification_no);
+    console.log("Serial Number (SI No): ", storedFormData.si_no);
+    console.log("Make: ", storedFormData.make);
+    console.log("Customer Reference: ", storedFormData.customer_ref);
+    console.log("Date of Calibration: ", storedFormData.date_calib);
+    console.log("Date of Receipt: ", storedFormData.date_of_receipt);
+    console.log("Calibration Procedure Number: ", storedFormData.calib_procedure_no);
+    console.log("Location: ", storedFormData.location);
+    console.log("Environment: ", storedFormData.environment);
+    console.log("Uncertainty: ", storedFormData.uncertainity);
+    
+    console.log("Group 1 Selection (ID): ", storedFormData.group1Selection);
+    console.log("Group 2 Selection (ID): ", storedFormData.group2Selection);
+
+    // Log the dynamic input values
+    console.log("Input Values: ");
+    Object.entries(storedFormData.inputValues).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+    });
+
+    // Log the dynamic output values
+    console.log("Output Values: ");
+    Object.entries(storedFormData.outputValues).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+    });
+
+var group1SelectionId = storedFormData.group1Selection; // Replace with actual key
+
+// Determine which tbody to display
+if (group1SelectionId === "setting_ring_trace") {
+    document.getElementById("tableBody-2").style.display = ""; // Show tableBody-2
+    document.getElementById("tableBody-1").style.display = "none"; // Hide tableBody-1
+} else if (group1SelectionId === "setting_plug_trace") {
+    document.getElementById("tableBody-1").style.display = ""; // Show tableBody-1
+    document.getElementById("tableBody-2").style.display = "none"; // Hide tableBody-2
+} else {
+    // Optionally handle cases where the selection ID is unrecognized
+    console.warn("Unrecognized selection ID:", group1SelectionId);
+}
+
+
+var group2SelectionId = storedFormData.group2Selection;
+
+    // Function to reorder inputs and outputs
+    function reorderValues(storedValues) {
+        const orderedInputs = [];
+        const orderedOutputs = [];
+        
+        // Collect input values
+        Object.keys(storedValues.inputValues).forEach(key => {
+            if (key.startsWith('input-')) {
+                orderedInputs.push(storedValues.inputValues[key]);
+            }
+        });
+
+        // Collect output values
+        Object.keys(storedValues.outputValues).forEach(key => {
+            if (key.startsWith('output-')) {
+                orderedOutputs.push(storedValues.outputValues[key]);
+            }
+        });
+        console.log("orderedInputs",orderedInputs)
+        console.log("orderedOutputs",orderedOutputs)
+
+        return { orderedInputs, orderedOutputs };
+    }
+
+    const { orderedInputs, orderedOutputs } = reorderValues(storedFormData);
+
+    // Determine which tbody to display
+    if (group2SelectionId === "setting_ring_master") {
+        document.getElementById("tableBody-4").style.display = ""; // Show tableBody-4
+        document.getElementById("tableBody-3").style.display = "none"; // Hide tableBody-3
+        
+        // Populate the input and output values for setting_ring_master
+        const rows = document.querySelectorAll("#tableBody-4 tr");
+        rows.forEach((row, index) => {
+            // Set input value
+            const inputValue = orderedInputs[index] || '';
+            row.cells[4].innerHTML = `<input type="text" value="${inputValue}" style="width: 100%; box-sizing: border-box; margin-left: 0px; text-align: center;">`;
+
+            // Set output value
+            const outputValue = orderedOutputs[index] || '';
+            row.cells[5].innerHTML = `<input type="text" value="${outputValue}" style="width: 100%; box-sizing: border-box; margin-left: 0px; text-align: center;">`;
+        });
+
+    } else if (group2SelectionId === "setting_plug_master") {
+        document.getElementById("tableBody-3").style.display = ""; // Show tableBody-3
+        document.getElementById("tableBody-4").style.display = "none"; // Hide tableBody-4
+        
+        // Populate the input and output values for setting_plug_master
+        const rows = document.querySelectorAll("#tableBody-3 tr");
+        rows.forEach((row, index) => {
+            // Set input value
+            const inputValue = orderedInputs[index] || '';
+            row.cells[4].innerHTML = `<input type="text" value="${inputValue}" style="width: 100%; box-sizing: border-box; margin-left: 0px; text-align: center;">`;
+
+            // Set output value
+            const outputValue = orderedOutputs[index] || '';
+            row.cells[5].innerHTML = `<input type="text" value="${outputValue}" style="width: 100%; box-sizing: border-box; margin-left: 0px; text-align: center;">`;
+        });
+        
+    } else {
+        // Optionally handle cases where the selection ID is unrecognized
+        console.warn("Unrecognized selection ID:", group2SelectionId);
+    }
+}
+
+
 </script>
 </body>
 </html>
