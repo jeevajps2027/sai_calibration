@@ -269,11 +269,14 @@ button {
         <label for="calib_procedure_no">CALIBRATION PROCEDURE NO:</label>
         <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="M-CP-074" required>
 
+        <label for="inward_no">INWARD NO:</label>
+        <input type="text" id="inward_no" name="inward_no" value="" required><br>
+
         <label for="location">LOCATION:</label>
-        <input type="text" id="location" name="location" value="" required><br>
+        <input type="text" id="location" name="location" value="" required>
 
         <label for="environment">ENVIRONMENT CONDITION:</label>
-        <input type="text" id="environment" name="environment" value="Temperature: 33.0°C"  readonly>
+        <input type="text" id="environment" name="environment" value="Temperature: 33.0°C"  readonly><br>
 
         <label for="uncertainity">UNCERTAINITY OF MEASUREMENT:</label>
         <input type="text" id="uncertainity" name="uncertainity" value="± 2.9 µm (At 95% confidence level with coverage factor K = 2)" readonly><br>
@@ -605,7 +608,7 @@ document.getElementById("final_button").addEventListener("click", function(event
     var location = document.getElementById("location").value;
     var environment = document.getElementById("environment").value;
     var uncertainity = document.getElementById("uncertainity").value;
-
+    var inward_no = document.getElementById("inward_no").value;
 
     // Collect radio button selections from both groups
     var group1Selection = document.querySelector('input[name="group1"]:checked').id;
@@ -617,10 +620,10 @@ document.getElementById("final_button").addEventListener("click", function(event
     var inputValues = {};
     var outputValues = {};
     document.querySelectorAll('input[type="text"]').forEach(function(el) {
-        if (el.id.startsWith('input')) {
-            inputValues[el.id] = el.value;
-        } else if (el.id.startsWith('output')) {
-            outputValues[el.id] = el.value;
+        if (el.id.startsWith('input-') && el.value.trim() !== "") {
+            inputValues[el.id] = el.value; // Only store non-empty inputs
+        } else if (el.id.startsWith('output-') && el.value.trim() !== "") {
+            outputValues[el.id] = el.value; // Only store non-empty outputs
         }
     });
 
@@ -628,7 +631,7 @@ document.getElementById("final_button").addEventListener("click", function(event
     var formData = {
         date, certificate_num,next_calibration, calib_engineer,date_of_issue, quality_manager, customer_address,
         range, least_count, identification_no, si_no, make, customer_ref, date_calib,
-        date_of_receipt, calib_procedure_no, location, environment, uncertainity,
+        date_of_receipt, calib_procedure_no, location, environment, uncertainity,inward_no,
         group1Selection, group2Selection, inputValues, outputValues
     };
     
@@ -658,6 +661,7 @@ document.getElementById("final_button").addEventListener("click", function(event
     console.log("Customer Reference:", customer_ref);
     console.log("Date of Calibration:", date_calib);
     console.log("Date of Receipt:", date_of_receipt);
+    console.log("inward_no:", inward_no);
     console.log("Calibration Procedure No:", calib_procedure_no);
     console.log("Location:", location);
     console.log("Environment Condition:", environment);

@@ -181,7 +181,7 @@ label::after {
     margin-left: 10px;
     font-weight: 500;
     outline: none;
-    border: 1px solid rgb(247, 232, 232); /* Add a border if needed */
+    border: 1px solid white; /* Add a border if needed */
     padding: 3px;
     border-radius: 4px;
   }
@@ -556,7 +556,8 @@ function downloadPDF() {
         document.getElementById("inward_no_op").value = storedFormData.inward_no || '';
         document.getElementById("environment_op").value = storedFormData.environment || '';
         document.getElementById("uncertainity_op").value = storedFormData.uncertainity || '';
-
+        document.getElementById("inward_no_op").value = storedFormData.inward_no || '';
+        
 
         document.getElementById("calibration_engineer_op").value = storedFormData.calib_engineer || '';
         document.getElementById("quality_manager_op").value = storedFormData.quality_manager || '';
@@ -600,6 +601,7 @@ if (storedFormData) {
     console.log("Location: ", storedFormData.location);
     console.log("Environment: ", storedFormData.environment);
     console.log("Uncertainty: ", storedFormData.uncertainity);
+    console.log("inward_no: ", storedFormData.inward_no);
     
     console.log("Group 1 Selection (ID): ", storedFormData.group1Selection);
     console.log("Group 2 Selection (ID): ", storedFormData.group2Selection);
