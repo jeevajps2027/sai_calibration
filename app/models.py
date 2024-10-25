@@ -47,3 +47,20 @@ class EngineerManagerDetails(models.Model):
     calib_engineer = models.CharField(max_length=255)
     quality_manager = models.CharField(max_length=255)
     certificate_no = models.CharField(max_length=50)
+
+class WorkOrder(models.Model):
+    customer_name = models.CharField(max_length=255)
+    wo_date = models.CharField(max_length=50)  # Work Order Date
+    work_order_no = models.CharField(max_length=50)
+    customer_po_no = models.CharField(max_length=50, blank=True, null=True)
+    customer_ref_date = models.CharField(max_length=50,blank=True, null=True)
+    order_type = models.CharField(max_length=100, blank=True, null=True)
+    customer_address = models.TextField(blank=True, null=True)
+    item = models.CharField(max_length=255)
+    hsn = models.CharField(max_length=100, blank=True, null=True)
+    sr_no = models.CharField(max_length=100, blank=True, null=True)  # Serial number
+    id_no = models.CharField(max_length=100, blank=True, null=True)  # ID number
+    range = models.CharField(max_length=100, blank=True, null=True)
+    make = models.CharField(max_length=100, blank=True, null=True)
+
+    

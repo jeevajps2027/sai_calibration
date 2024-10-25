@@ -88,7 +88,7 @@
         }
         #line6 {
             position: absolute;
-            top: 27cm; /* Position the line 5.2 cm from the top */
+            top: 26.5cm; /* Position the line 5.2 cm from the top */
             left: 50%; /* Position the line in the center */
             transform: translateX(-50%); /* Center the line */
             width: 100%; /* Line width */
@@ -207,7 +207,8 @@ label::after {
         #container3_textarea{
             height: 130px;
             width: 100%; 
-            border: 1px solid #ccc; /* Add a border if needed */
+            margin-top: 10px;
+            border: 1px solid white; /* Add a border if needed */
            font-weight: 400;
            font-size: 14px;
            font-style: normal;
@@ -474,19 +475,23 @@ th, td {
 <script>
 
 function downloadPDF() {
-        const element = document.getElementById('a4-content');
-        
-        var opt = {
-            margin:       0,
-            filename:     'a4-sheet.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', orientation: 'portrait' }
-        };
-        
-        // Convert the content to PDF
-        html2pdf().from(element).set(opt).save();
-    }
+    const element = document.getElementById('a4-content');
+    
+    // Get the certificate number from the input field
+    const certificateNo = document.getElementById('certificate_no_op').value || 'default-filename'; // Fallback in case it's empty
+
+    var opt = {
+        margin:       0,
+        filename:     `${certificateNo}.pdf`,  // Set the filename dynamically
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', orientation: 'portrait' }
+    };
+    
+    // Convert the content to PDF
+    html2pdf().from(element).set(opt).save();
+}
+
 
 
     
@@ -549,7 +554,7 @@ function downloadPDF() {
         document.getElementById("make_op").value = storedFormData.make || '';
 
         document.getElementById("customer_ref_op").value = storedFormData.customer_ref || '';
-        document.getElementById("date_op").value = storedFormData.date || '';
+        document.getElementById("date_op").value = storedFormData.date_calib || '';
         document.getElementById("date_of_receipt_op").value = storedFormData.date_of_receipt || '';
         document.getElementById("calib_no_op").value = storedFormData.calib_procedure_no || '';
         document.getElementById("location_op").value = storedFormData.location || '';

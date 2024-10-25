@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import path,include
 from django.conf.urls.static import static
-from .views import login,master,index,calib,output
+from .views import login,master,index,calib,output,inward
 
 
 urlpatterns = [
@@ -9,7 +9,8 @@ urlpatterns = [
     path('index/',index,name="index"),
     path('master/',master,name="master"),
     path('calib/',calib,name="calib"),
-     path('output/',output,name="output"),
+    path('output/',output,name="output"),
+    path('inward/',inward,name="inward"),
 
     ]
 

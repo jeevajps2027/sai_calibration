@@ -8,49 +8,13 @@ Calibration Input
     #box0{
         height: 630px;
         width: 1050px;
-        margin-left: 50px;
+        margin-left: 40px;
         border: 2px solid black;
-        background-color:#fae6d8;
-        border-radius: 20px;
+        background-color:#ecd1e8;       
     }
-    #box1{
-        height: 80px;
-        width: 900px;
-        margin-top: 10px;
-        margin-left: 50px;
-        border: 2px solid black;
-        background-color:#dcc4f8;
-        border-radius: 5px;
-    }
-    #box2{
-        height: 500px;
-        width: 900px;
-        margin-top: 10px;
-        margin-left: 50px;
-        border: 2px solid black;
-        background-color: #f8c4e2;
-    }
-    .box-1 {
-        display: flex;
-        gap: 10px; /* Space between labels */
-    }
-
     body{
         background-color: #1a7d9e;
     }
-
-    .inner-box-1, .inner-box-2, .inner-box-3, .inner-box-4{
-        padding: 10px;
-        background-color: #f0f0f0;
-        border: 2px solid #ccc;
-        text-align: center;
-        cursor: pointer;
-        font-weight: bold;
-        margin-top: 10px;
-        margin-left: 30px;
-        height: 50px;
-        width:180px;
-  }
 
   label {
     display: inline-block;
@@ -64,21 +28,18 @@ Calibration Input
 select {
     margin-top: 10px;
     box-sizing: border-box;
-    width: 25%;
+    width: 200px;
     height: 30px;
     margin-left: 10px;
 }
 
 input{
     margin-left: 10px;
-    width: 25%;
+    width: 200px;
+    text-align: center;
 }
 
-#date{
-    text-align: center;
-    font-weight: bold;
-    font-size: 15px;
-}
+
 
    /* Style for the input field */
 #search-input {
@@ -97,10 +58,11 @@ input{
     box-shadow: 0 0 8px #904caf;
 }
 #customer_address{
-    width: 500px;
-    height: 180px;
-    margin-left: 50px;
-    margin-top: 20px;
+    width:400px;
+    height: 120px;
+    margin-left: 200px;
+    margin-top: 10px;
+   
 }
 
 /* code for previous and next button */
@@ -124,19 +86,7 @@ button {
     align-items: center;
 }
 
-.prev-button {
-    margin-right: 10px;
-    width: 150px;
-    background-color: orangered;
-   
-}
 
-.next-button {
-    margin-left: 10px;
-    width: 150px;
-    background-color: rgb(11, 224, 11);
-   
-}
 .container{
     height: 250px;
     width: 650px;
@@ -169,148 +119,237 @@ button {
     color: white;
     
 }
+.container_1{
+    height: 120px;
+    width: 400px;
+    margin-left: 600px;
+    margin-top: -120px;
+    
+}
+.container_2{
+    height: 120px;
+    width: 500px;
+    margin-left: 20px;
+    
+}
+.container_3{
+    height: 120px;
+    width: 400px;
+    margin-left: 600px;
+    margin-top: -150px;   
+}
+.container_4{
+    height: 160px;
+    width: 350px;
+   border: 1px solid black;
+   margin-left: 5px;
+}
+.container_5{
+    height: 160px;
+    width: 330px;
+    margin-left: 360px;
+    margin-top: -160px;
+    border: 1px solid black;
+}
+.container_6{
+    height: 160px;
+    width: 320px;
+    margin-left: 700px;
+    margin-top: -160px;
+    border: 1px solid black;
+}
+.container_7{
+    height: 130px;
+    width: 500px;
+   border: 1px solid black;
+   margin-left: 5px;
+   margin-top: 5px;
+   
+}
+
+.container_8{
+    height: 130px;
+    width: 500px;
+   border: 1px solid black;
+   margin-left: 520px;
+   margin-top: -130px;
+  
+}
+
+.container_9{
+    height: 100px;
+    width: 1015px;
+   border: 1px solid black;
+   margin-left: 5px;
+   margin-top: 5px;
+   
+}
+#final_button{
+    margin-left: 80%;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(20, 169, 20);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+#heading{
+    font-weight: 800;
+    font-size: 25px;
+   color: red;
+}
+
 </style>
 
-<div class="box-0" id="box0">
-    <div class="box-1" id="box1">
-        <label class="inner-box-1" id="customer_details"  onclick="enlargeItem(1),showItem('item-1')" >CUSTOMER DETAILS</label>
-        <label class="inner-box-2" id="traceability" onclick="enlargeItem(2),showItem('item-2')" >DESCRIBTION</label>
-        <label class="inner-box-3" id="master" onclick="enlargeItem(3),showItem('item-3')" >REFERENCE</label>
-            </div>
-<div class="box-2" id="box2" style="overflow-x: auto;overflow-y:auto;">
-    <div class="item item-1" id="item1">
-        
-        <label for="certificate_num">CERTIFICATE NO:</label>
-        <select id="certificate_num" name="certificate_num">
+<div class="box-0" id="box0" style="overflow-x: auto;overflow-y:auto;">
+
+        <center id="heading">CALIBRATION PAGE</center>
+
+        <label for="search" style="width: 170px;margin-top: 20px;">SEARCH CUSTOMER:</label>
+        <input list="customers" id="search-input" style="width: 400px;margin-left: 10px;">
+        <datalist id="customers">
+            {% for customer in customer_value %}
+            <option value="{{ customer.customer_name }}" 
+            data-address="{{ customer.address }}" 
+            data-primary-email="{{ customer.primary_email }}">
+        </option>
+            {% endfor %}
+        </datalist>
+
+        <label for="certificate_num" style="width: 140px;">CERTIFICATE NO:</label>
+        <!-- <select id="certificate_num" name="certificate_num">
             {% for details in EngineerManagerDetails_value %}
                 <option value="{{ details.certificate_no }}">{{ details.certificate_no }}</option>
             {% endfor %}
-        </select>
-        
-        <label for="date">DATE:</label>
-        <input type="text" id="date" readonly><br>
-
-
-        <label for="date_of_issue">Date of Issue:</label>
-        <input type="text" id="date_of_issue">
-
-        <label for="next_calibration">NEXT CALIBRATION DUE:</label>
-        <input type="text" id="next_calibration" readonly>
-        <br>
-
-
-        <label for="calib_engineer">Calibration Engineer:</label>
-        <select id="calib_engineer" name="calib_engineer" required>
-            {% for details in EngineerManagerDetails_value %}
-                <option value="{{ details.calib_engineer }}">{{ details.calib_engineer }}</option>
-            {% endfor %}
-        </select>
-        
-        <label for="quality_manager">Quality Manager:</label>
-        <select id="quality_manager" name="quality_manager" required>
-            {% for details in EngineerManagerDetails_value %}
-                <option value="{{ details.quality_manager }}">{{ details.quality_manager }}</option>
-            {% endfor %}
-        </select><br>
-        
-
-        <label for="search" style="width: 200px;margin-top: 30px;">SEARCH CUSTOMER:</label>
-                <input list="customers" id="search-input" style="width: 600px;margin-left: 30px;">
-                <datalist id="customers">
-                    {% for customer in customer_value %}
-                    <option value="{{ customer.customer_name }}" 
-                    data-address="{{ customer.address }}" 
-                    data-primary-email="{{ customer.primary_email }}">
-                </option>
-                    {% endfor %}
-                </datalist><br><br>
+        </select> -->
+        {% for details in EngineerManagerDetails_value %}
+        <input type="text" id="certificate_num" value="{{ details.certificate_no }}">
+        {% endfor %}<br>
 
         <textarea id="customer_address"></textarea>
-        <div class="navigation-buttons">
+
+
+        <div class="container_1">
+            <label for="work_order" style="margin-top: 0px;">Work Order:</label>
+            <select type="text" id="work_order"></select><br>
+
+            <label for="wo_items">WO-Items:</label>
+            <select type="text" id="wo_items"></select><br>
+
+
+        </div>
+
+        <div class="container_2">
+            <label for="calib_engineer" style="font-size:15px;">Calibration Engineer:</label>
+            <select id="calib_engineer" name="calib_engineer" required>
+                {% for details in EngineerManagerDetails_value %}
+                    <option value="{{ details.calib_engineer }}">{{ details.calib_engineer }}</option>
+                {% endfor %}
+            </select>
             
-            <button class="next-button" id="next_button1" style="margin-left: 700px;">
-                Next &#8594;
-            </button>
+            <label for="quality_manager">Quality Manager:</label>
+            <select id="quality_manager" name="quality_manager" required>
+                {% for details in EngineerManagerDetails_value %}
+                    <option value="{{ details.quality_manager }}">{{ details.quality_manager }}</option>
+                {% endfor %}
+            </select><br>
+            </div>
+
+        <div class="container_3">
+            <label for="date" style="margin-top: 0px;">Date:</label>
+            <input type="date" id="date"><br>
+
+            <label for="date_of_issue">Date of Issue:</label>
+            <input type="date" id="date_of_issue"><br>
+
+            <label for="next_calibration">Next Calibrations:</label>
+            <input type="date" id="next_calibration"  >
+            <br>
+
         </div>
-        
-    </div>
-    <div class="item item-2" id="item2" style="overflow-x: auto;overflow-y:auto;">
-        <label for="range">RANGE:</label>
-        <input type="text" id="range" name="range" value=" ± 50 um" required class="range-input">
-        
-        
-        <label for="least_count">L.C:</label>
-        <select id="least_count" name="least_count" required>
-            <option>0.001 mm</option>
-            <option>0.0005 mm</option>
-            <option>0.0001 mm</option>
-        </select>
-        <br>
 
 
-        <label for="identification_no">IDENTIFICATION NO:</label>
-        <input type="text" id="identification_no" name="identification_no" value="" required>
+        <div class="container_4">
+            <label for="range" style="width: 50px;margin-top: 0px;">RANGE:</label>
+            <input type="text" id="range" name="range" value=" ± 50 um" required class="range-input"><br>
+            <label for="least_count" style="width: 50px;">L.C:</label>
+            <select id="least_count" name="least_count" required>
+                <option>0.001 mm</option>
+                <option>0.0005 mm</option>
+                <option>0.0001 mm</option>
+            </select>
+            <br>
 
-        <label for="si_no">SI.NO:</label>
+
+        <label for="identification_no" style="width: 50px;">ID NO:</label>
+        <input type="text" id="identification_no" name="identification_no" value="" required><br>
+
+        <label for="si_no" style="width: 50px;">SI.NO:</label>
         <input type="text" id="si_no" name="si_no" value="" required><br>
-
-        <label for="make">MAKE:</label>
-        <input type="text" id="make" name="make" value="" required>
-
-        <label for="customer_ref">CUSTOMER'S REFERENCE:</label>
-        <input type="text" id="customer_ref" name="customer_ref" value="" required><br>
-
-        <label for="date_calib">DATE:</label>
-        <input type="text" id="date_calib" name="date_calib" value="" required>
-
-        <label for="date_of_receipt">DATE OF RECEIPT:</label>
-        <input type="text" id="date_of_receipt" name="date_of_receipt" value="" required><br>
-
-        <label for="calib_procedure_no">CALIBRATION PROCEDURE NO:</label>
-        <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="M-CP-074" required>
-
-        <label for="inward_no">INWARD NO:</label>
-        <input type="text" id="inward_no" name="inward_no" value="" required><br>
-
-        <label for="location">LOCATION:</label>
-        <input type="text" id="location" name="location" value="" required>
-
-        <label for="environment">ENVIRONMENT CONDITION:</label>
-        <input type="text" id="environment" name="environment" value="Temperature: 33.0°C"  readonly><br>
-
-        <label for="uncertainity">UNCERTAINITY OF MEASUREMENT:</label>
-        <input type="text" id="uncertainity" name="uncertainity" value="± 2.9 µm (At 95% confidence level with coverage factor K = 2)" readonly><br>
-
-
-
-        <div class="navigation-buttons">
-            <button class="prev-button" id="prev_button2">
-                &#8592; Previous
-            </button>
-            <button class="next-button" id="next_button2">
-                Next &#8594;
-            </button>
         </div>
-    </div>
-   <div class="item item-3" id="item3"  style="overflow-x: auto;overflow-y:auto;">
-    <label style="margin-top: 20px; width: 60%;">
-        <b>1.REFERENCE STANDARDS & EQUIPMENTS USED FOR CALIBRATION:</b>
-    </label>
-    <br>
-    
-    <!-- Group 1 Radio Buttons -->
-    <div class="radio-group">
-        <label style="width:300px">
-            <input type="radio" name="group1" value="1" id="setting_plug_trace"> Setting Plug Traceability
-        </label>
-        <label style="width:300px">
-            <input type="radio" name="group1" value="2" id="setting_ring_trace"> Setting Ring Traceability
-        </label>
-    </div>
-    
-    <br>
-    
-    <label style="margin-left: 0px;margin-top: 0px; width: 225px;">
+
+
+
+        <div class="container_5">
+            <label for="make" style="width: 50px;">MAKE:</label>
+            <input type="text" id="make" name="make" value=""><br>
+
+            <label for="date_calib" style="width: 50px;">DATE:</label>
+            <input type="date" id="date_calib" name="date_calib" value=""><br>
+
+            <label for="date_of_receipt" style="width: 50px;">RECEIPT DATE:</label>
+            <input type="date" id="date_of_receipt" name="date_of_receipt" value=""><br>
+
+           
+        </div>
+
+        <div class="container_6">
+            <label for="customer_ref" style="width: 200px;margin-left: -50px;">CUSTOMER'S REF:</label><br>
+            <input type="text" id="customer_ref" name="customer_ref" value="" style="margin-left: 80px;"><br>
+            
+            <label for="calib_procedure_no" style="width: 300px;margin-left: -50px;">CALIBRATION PROCEDURE NO:</label><br>
+            <input type="text" id="calib_procedure_no" name="calib_procedure_no" value="M-CP-074" style="margin-left: 80px;" required>
+        </div>
+
+        <div class="container_7">
+            <label for="inward_no">INWARD NO:</label>
+            <input type="text" id="inward_no" name="inward_no" value="SAI-AG-CAL-" required><br>
+
+            <label for="environment">ENVIRONMENT CONDITION:</label>
+            <input type="text" id="environment" name="environment" value="Temperature: 33.0°C"  readonly><br>
+        </div>
+
+        <div class="container_8">
+            <label for="location">LOCATION:</label>
+            <input type="text" id="location" name="location" value="" required>
+
+            <label for="uncertainity">UNCERTAINITY OF MEASUREMENT:</label>
+            <input type="text" id="uncertainity" name="uncertainity" value="± 2.9 µm (At 95% confidence level with coverage factor K = 2)" readonly><br>
+
+        </div>
+       
+
+        <div class="container_9">
+            <label style="margin-top: 10px; width: 60%; margin-left: -50px;">
+                <b>1.REFERENCE STANDARDS & EQUIPMENTS USED FOR CALIBRATION:</b>
+            </label><br>
+
+            <div class="radio-group">
+                <input type="radio" name="group1" value="1" id="setting_plug_trace">
+                <label style="width:200px;margin-left: -100px;" >
+                    Setting Plug Traceability
+                </label>
+        
+                <input type="radio" name="group1" value="2" id="setting_ring_trace"> 
+                <label style="width:200px;margin-left: -100px;">
+                    Setting Ring Traceability
+                </label>
+            </div>
+            
+        </div>  
+   
+    <label style="margin-left: 20px;margin-top: 10px; width: 225px;">
         <b>2.CALIBRATION RESULTS:</b>
     </label>
     <br>
@@ -357,22 +396,16 @@ button {
 </div>
 
 </div>
-<br>
-
-
-    <div class="navigation-buttons">
-        <button class="prev-button" id="prev_button3">
-            &#8592; Previous
-        </button>
-        <button class="next-button" id="final_button">
-            Next &#8594;
-        </button>
-    </div>
+<div class="navigation-buttons">
+    <button  id="final_button">
+        Next
+    </button>
+</div>
 </div>
 
 
-   
-</div>
+
+
 </div>
 
 
@@ -457,38 +490,7 @@ formGroups.forEach((group) => {
 
 
 //////////////////////////////////////////////////////////////////////////////////
-   // Function to highlight and enlarge an item
-function enlargeItem(index) {
-    // Remove the highlight from all items
-    document.querySelectorAll('.box-1 > label').forEach(function (el) {
-        el.style.backgroundColor = '';  // Reset background color for all labels
-    });
-
-    // Highlight the clicked item
-    var clickedInnerBox = document.querySelector(`.box-1 .inner-box-${index}`);
-    if (clickedInnerBox) {
-        clickedInnerBox.style.backgroundColor = 'red';  // Highlight the clicked label
-    } else {
-        console.log('No inner-box found with index:', index);
-    }
-}
-
-// Function to display the selected item
-function showItem(itemClassName) {
-    // Hide all items
-    var itemClasses = document.querySelectorAll('.item');
-    itemClasses.forEach(function (item) {
-        item.style.display = 'none';  // Hide all items
-    });
-
-    // Show the selected item
-    var selectedItem = document.querySelector('.' + itemClassName);
-    if (selectedItem) {
-        selectedItem.style.display = 'block';  // Show the selected item
-    } else {
-        console.log('No item found with class:', itemClassName);
-    }
-}
+ 
 
 // Function to handle next button click
 function handleNextButton(currentIndex, nextIndex, currentItem, nextItem) {
@@ -539,19 +541,19 @@ const formattedDate = ('0' + today.getDate()).slice(-2) + '-' +
                       today.getFullYear();
 
 // Set the value of the input field
-document.getElementById('date').value = formattedDate;
+// document.getElementById('date_of_issue').value = formattedDate;
 
-// Calculate the next calibration date (one year from today)
-const nextCalibrationDate = new Date(today);
-nextCalibrationDate.setFullYear(today.getFullYear() + 1);
+// // Calculate the next calibration date (one year from today)
+// const nextCalibrationDate = new Date(today);
+// nextCalibrationDate.setFullYear(today.getFullYear() + 1);
 
-// Format the next calibration date as DD-MM-YYYY
-const formattedNextCalibrationDate = ('0' + nextCalibrationDate.getDate()).slice(-2) + '-' + 
-                                     ('0' + (nextCalibrationDate.getMonth() + 1)).slice(-2) + '-' + 
-                                     nextCalibrationDate.getFullYear();
+// // Format the next calibration date as DD-MM-YYYY
+// const formattedNextCalibrationDate = ('0' + nextCalibrationDate.getDate()).slice(-2) + '-' + 
+//                                      ('0' + (nextCalibrationDate.getMonth() + 1)).slice(-2) + '-' + 
+//                                      nextCalibrationDate.getFullYear();
 
-// Set the value of the 'next_calibration' input field with the next calibration date
-document.getElementById('next_calibration').value = formattedNextCalibrationDate;
+// // Set the value of the 'next_calibration' input field with the next calibration date
+// document.getElementById('next_calibration').value = formattedNextCalibrationDate;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
