@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import path,include
 from django.conf.urls.static import static
-from .views import login,master,index,calib,output,inward
+from .views import login,master,index,calib,output,inward,report
 
 
 urlpatterns = [
@@ -11,7 +11,7 @@ urlpatterns = [
     path('calib/',calib,name="calib"),
     path('output/',output,name="output"),
     path('inward/',inward,name="inward"),
-
+    path('report/',report,name="report"),
     ]
 
 if settings.DEBUG:

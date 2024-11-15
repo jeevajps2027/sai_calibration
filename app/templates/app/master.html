@@ -256,6 +256,8 @@ background-color: orange;
         border: none;
         outline: none;
     }   
+
+    
 </style>
 
 
@@ -263,7 +265,7 @@ background-color: orange;
     <div class="box-1" id="box1">
         <label class="inner-box-1" id="customer_details"  onclick="enlargeItem(1),showItem('item-1')" >CUSTOMER DETAILS</label>
         <label class="inner-box-2" id="traceability" onclick="enlargeItem(2),showItem('item-2')" >TRACEABILITY</label>
-        <label class="inner-box-3" id="master" onclick="enlargeItem(3),showItem('item-3')" >MASTER</label>
+        <label class="inner-box-3" id="master" onclick="enlargeItem(3),showItem('item-3')" >MASTER DETAILS</label>
         <label class="inner-box-4" id="engineer_details" onclick="enlargeItem(4),showItem('item-4')">ENGINEER DETAILS</label>
     </div>
 
@@ -275,7 +277,7 @@ background-color: orange;
         <div class="item item-1" id="item1">
         
             <form id="customer-form" onsubmit="return validateForm()">
-                <label for="search" style="margin-left: -20px; width: 200px;">SEARCH CUSTOMER:</label>
+                <label for="search" style="margin-left: -20px; width: 200px;margin-top: -10px;">SEARCH CUSTOMER:</label>
                 <input list="customers" id="search-input" style="width: 600px;">
                 <datalist id="customers">
                     {% for customer in customer_value %}
@@ -287,49 +289,43 @@ background-color: orange;
                             data-primary-phone="{{ customer.primary_phone_no }}"
                             data-secondary-phone="{{ customer.secondary_phone_no }}"
                             data-gst="{{ customer.gst_no }}"
-                            data-department="{{ customer.dept }}"
+                            data-primary_department="{{ customer.primary_dept }}"
+                            data-secondary_department="{{ customer.secondary_dept }}"
                             data-address="{{ customer.address }}">
                     {% endfor %}
                 </datalist><br><br>
                 
 
-                <label for="customer_name" style="margin-left: 0px; margin-top: 10px;">CUSTOMER NAME:</label>
+                <label for="customer_name" style="margin-left: 0px; margin-top: -10px;">CUSTOMER NAME:</label>
                 <input type="text" id="customer_name" name="customer_name" value="" required>
-        
-                <label for="contact_person">CONTACT PERSON:</label>
-                <div class="dropdown">
-                    <div class="dropdown-button" id="contact_person_btn" onclick="toggleDropdown('contact_person')">Enter Contact Person:</div>
-                    <div id="dropdown-content-contact_person" class="dropdown-content">
-                        <input type="text" id="primary_contact_person" placeholder="Primary Contact Person" required>
-                        <input type="text" id="secondary_contact_person" placeholder="Secondary Contact Person" required>
-                    </div>
-                </div><br>
-        
-                <label for="email" style="margin-left: 0px;">EMAIL:</label>
-                <div class="dropdown">
-                    <div class="dropdown-button" id="email_btn" onclick="toggleDropdown('email')">Enter Email:</div>
-                    <div id="dropdown-content-email" class="dropdown-content">
-                        <input type="email" id="primary_email" placeholder="Primary Email" required>
-                        <input type="email" id="secondary_email" placeholder="Secondary Email" required>
-                    </div>
-                </div>
-        
-                <label for="phone_no" style="margin-left: 5px;">PHONE NO:</label>
-                <div class="dropdown">
-                    <div class="dropdown-button" id="phone_no_btn" onclick="toggleDropdown('phone_no')">Enter Phone No:</div>
-                    <div id="dropdown-content-phone_no" class="dropdown-content">
-                        <input type="tel" id="primary_phone_no" placeholder="Primary Phone No" required>
-                        <input type="tel" id="secondary_phone_no" placeholder="Secondary Phone No" required>
-                    </div>
-                </div><br>
-
                 <label for="gst_no" style="margin-left: -10px;">GST No:</label>
-                <input type="text" id="gst_no" name="gst_no" required >
+                <input type="text" id="gst_no" name="gst_no" required ><br>
+
+                <table id="prim_sec_table" style="margin-top: 10px;">
+                    <tr>
+                        <th></th>
+                        <th style="width: 20%;">Contact Person</th>
+                        <th style="width: 20%;">Ph.No</th>
+                        <th style="width: 20%;">Email</th>
+                        <th style="width: 20%;">Department</th>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">PRIMARY</td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="primary_contact_person"></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="primary_phone_no" ></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="primary_email"></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="primary_dept"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">SECONDARY</td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="secondary_contact_person"></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="secondary_phone_no"></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="secondary_email"></td>
+                        <td><input type="text" class="no-outline" style="width: 100%;" id="secondary_dept"></td>
+                    </tr>
+                </table>
         
-                <label for="dept">DEPARTMENT:</label>
-                <input type="text" id="dept" name="dept" value="" required>
-                <br>
- 
+                
         
                 <div class="container">
                     <div class="label-container">
@@ -518,7 +514,7 @@ background-color: orange;
                         <th style="width: 5%;">Sr.No</th>
                         <th style="width: 20%;" id="calib_engineer">Calibration Engineer</th>
                         <th style="width: 20%;" id="quality_manager">Quality Manager</th>
-                        <th style="width: 20%;" id="certificate_no">Certificate No</th>
+                        <th style="width: 20%;" id="certificate_no">Certificate No Series</th>
                         
                     </tr>
                 </thead>
@@ -566,7 +562,8 @@ document.getElementById('search-input').addEventListener('input', function() {
             document.getElementById('primary_phone_no').value = options[i].getAttribute('data-primary-phone') || '';
             document.getElementById('secondary_phone_no').value = options[i].getAttribute('data-secondary-phone') || '';
             document.getElementById('gst_no').value = options[i].getAttribute('data-gst') || '';
-            document.getElementById('dept').value = options[i].getAttribute('data-department') || '';
+            document.getElementById('primary_dept').value = options[i].getAttribute('data-primary_department') || '';
+            document.getElementById('secondary_dept').value = options[i].getAttribute('data-secondary_department') || '';
             document.getElementById('address').value = options[i].getAttribute('data-address') || '';
             break;
         }
@@ -583,7 +580,8 @@ function clearValues() {
     document.getElementById('primary_phone_no').value = '';
     document.getElementById('secondary_phone_no').value = '';
     document.getElementById('gst_no').value = '';
-    document.getElementById('dept').value = '';
+    document.getElementById('primary_dept').value = '';
+    document.getElementById('secondary_dept').value = '';
     document.getElementById('address').value = '';
 }
 
@@ -781,7 +779,8 @@ function saveData(formType) {
         formData.primary_phone_no = document.getElementById('primary_phone_no').value;
         formData.secondary_phone_no = document.getElementById('secondary_phone_no').value;
         formData.gst_no = document.getElementById('gst_no').value;
-        formData.dept = document.getElementById('dept').value;
+        formData.primary_dept = document.getElementById('primary_dept').value;
+        formData.secondary_dept = document.getElementById('secondary_dept').value;
         formData.address = document.getElementById('address').value;
 
     }  else if (formType === 'setting_plug_trace') {

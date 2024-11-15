@@ -7,11 +7,11 @@ Inward page
 <style>
     #box0{
         height: 630px;
-        width: 1050px;
-        margin-left: 40px;
+        width: 1150px;
+        margin-left: 20px;
         border: 2px solid black;
         background-color:#f1c2f1;
-        border-radius: 20px;
+        
     }
 
     label {
@@ -62,8 +62,8 @@ th{
 }
 .container_box{
     height: 380px;
-    width: 1000px;
-    margin-left: 20px;
+    width: 1130px;
+    margin-left: 10px;
     border: 2px solid black;
     background-color: rgb(221, 246, 202);
 }
@@ -98,6 +98,11 @@ th{
     text-align: center;
     font-weight: bold;  
 }
+#create_btn{
+    background-color:blue;
+    color: white;
+    font-weight: bold;
+}
 #refresh-btn1,#refresh-btn2 i {
     font-size: 20px;  /* Adjust size of the icon */
     color: #007bff;   /* Adjust color if needed */
@@ -124,8 +129,15 @@ th{
     border: 2px solid black;
 }
 .selected-row {
-    background-color: green;  /* Highlight row in green */
+    background-color: green;
 }
+
+.edit-cell {
+    width: 100%;
+    border: 1px solid #ddd;
+    margin-left: 0px;
+}
+
 
 </style>
 
@@ -152,7 +164,9 @@ th{
         <option>SALES</option>
         <option>SERVICE</option>
         <option>CALIBRATIONS</option>
-    </select><br>
+    </select>
+    
+    <button type="submit" id="create_btn"> CREATE NEW</button><br>
     
     
     
@@ -163,13 +177,13 @@ th{
         <i class="fa fa-refresh"></i>
     </button>
 
-    <label for="wo_date"  style="margin-left: 190px;" >WO.DATE :</label>
+    <label for="wo_date"  style="margin-left: 170px;" >WO.DATE :</label>
     <input type="date" id="wo_date"><br>
 
     <label for="customer_po_no" style="margin-left: 30px;">CUSTOMER PO NO :</label>
     <input type="text" id="customer_po_no" >
     
-    <label for="customer_ref_date" style="width: 180px;margin-left: 195px;">CUSTOMER REF DATE :</label>
+    <label for="customer_ref_date" style="width: 180px;margin-left: 170px;">CUSTOMER REF DATE :</label>
     <input type="date" id="customer_ref_date" ><br>
 
     
@@ -180,32 +194,24 @@ th{
         <table border="1">
             <thead>
                 <tr>
-                    <th style="width: 5%;">Sr.No</th>
-                    <th>Item</th>
+                    <th >Sr.No</th>
+                    <th style="width: 15%;">Item</th>
                     <th>HSN</th>
-                    <th>Sr.No</th>
+                    <th>SI.No</th>
                     <th>Id No</th>
-                    <th>Range</th>
+                    <th style="width: 10%;">Range</th>
                     <th>Make</th>
+                    <th style="width: 5%;">Channels</th>
+                    <th style="width: 5%;">Check box</th>
                 </tr>
             </thead>
             <tbody id="tableBody-1">
-                {% for work_order in work_orders %}
-                <tr data-row-id="{{ work_order.id }}">
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ work_order.item }}</td>
-                    <td>{{ work_order.hsn }}</td>
-                    <td>{{ work_order.sr_no }}</td>
-                    <td>{{ work_order.id_no }}</td>
-                    <td>{{ work_order.range }}</td>
-                    <td>{{ work_order.make }}</td>
-                </tr>
-                {% endfor %}
+                
             </tbody>
             
         </table>
         <br>
-        <button  id="add_new_btn" onclick="addRow('setting_plug_trace', 7)">Add New</button>
+        <button  id="add_new_btn" onclick="addRow('setting_plug_trace', 9)">Add New</button>
         <div id="control_btn_div"> 
             <a href="/index/">
                 <button type="button" id="cancel-btn">BACK</button>
@@ -213,7 +219,7 @@ th{
             <button id="delete-btn">DELETE</button>
             <button id="submit-btn">SAVE</button>
 
-            <!-- <button id="delete_btn_all">DELETE</button> -->
+           
         </div>
         <div>
         </div>
@@ -225,13 +231,22 @@ document.getElementById('refresh-btn1').addEventListener('click', function() {
 });
 document.getElementById('refresh-btn2').addEventListener('click', function() {
     document.getElementById('work_order_no').value = '';  // Clears the date input field
+
+     // Clear the other input fields
+     document.getElementById('wo_date').value = ''; 
+    document.getElementById('customer_po_no').value = ''; 
+    document.getElementById('customer_ref_date').value = ''; 
+    // Reset the ORDER TYPE select field to its default (first) option
+    document.getElementById('next_calibration').selectedIndex = 0; 
+
+    // Clear the table contents by removing all rows in the table body
+    document.getElementById('tableBody-1').innerHTML = ''; 
 });
 
 ///////////////////////////////////////////////////////////////////////////
 
 
-
-   var rowData = {};
+var rowData = {};
 
 function addRow(tableId, numColumns) {
     var tableBody = document.querySelector('#' + tableId + ' tbody');
@@ -239,6 +254,13 @@ function addRow(tableId, numColumns) {
 
     // Mark the row as new
     newRow.setAttribute('data-new', 'true');
+
+    // Get the work_order_no input value
+    var workOrderNo = document.getElementById('work_order_no').value;
+
+    // Calculate the new Sr.No based on the work_order_no
+    var serialSuffix = String(tableBody.rows.length).padStart(2, '0');  // e.g., "01", "02", etc.
+    var serialNumber = workOrderNo + '/' + serialSuffix;  // e.g., "SAI/CAL/24-25/001/01"
 
     // Add click event to highlight the row on click
     newRow.addEventListener('click', function(event) {
@@ -252,35 +274,45 @@ function addRow(tableId, numColumns) {
     for (var i = 0; i < numColumns; i++) {
         var cell = newRow.insertCell(i);
 
-        if (i === 5) { // For the 'Range' column (6th column - index 5)
-            var container = document.createElement('div');
-            container.style.display = 'flex';
-            container.style.alignItems = 'center';
-            container.style.justifyContent = 'space-between';
-            container.style.width = '100%';
-
-            // Create the prefix (±)
-            var prefix = document.createElement('span');
-            prefix.textContent = '±';
-            container.appendChild(prefix);
-
-            // Create the input field
-            var input = document.createElement('input');
-            input.type = 'number';  // Restrict to number input
-            input.style.textAlign = 'center';  // Center align the input value
-            input.style.width = '60%';  // Adjust width to ensure space for prefix and suffix
-            input.style.border = 'none';
-            input.style.outline = 'none';
-            container.appendChild(input);
-
-            // Create the suffix (um)
-            var suffix = document.createElement('span');
-            suffix.textContent = ' um';
-            container.appendChild(suffix);
-
-            cell.appendChild(container);
+        if (i === 0) { // Sr.No column (index 0)
+            cell.textContent = serialNumber;
+        } else if (i === 5) { // Range column (index 5)
+            var selectRange = document.createElement('select');
+            selectRange.style.width = '100%';
+            selectRange.style.marginLeft = '0px';
+            selectRange.style.marginTop = '0px';
+            selectRange.innerHTML = `
+                <option value="">Select Range</option>
+                <option value="± 1 mm" >± 1 mm</option>
+                <option value="± 2 mm" >± 2 mm</option>
+                <option value="± 20 um" >± 20 um</option>
+                <option value="± 40 um" >± 40 um</option>
+            `;
+            cell.appendChild(selectRange);
+        } else if (i === 7) { // Channels column (index 7)
+            var selectChannels = document.createElement('select');
+            selectChannels.style.width = '100%';
+            selectChannels.style.marginLeft = '0px';
+            selectChannels.style.marginTop = '0px';
+            selectChannels.innerHTML = `
+                <option value="">Select Channels</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            `;
+            cell.appendChild(selectChannels);
+        }else if (i === 8) { // Check box column (index 8)
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.disabled = true; // Makes the checkbox read-only
+            checkbox.style.width = '100%';
+            checkbox.style.margin = '0 auto';
+            cell.appendChild(checkbox);
         } else {
-            // For all other columns, just add a normal text input
+            // For all other columns, add a normal text input
             var input = document.createElement('input');
             input.type = 'text';
             input.style.width = '100%';
@@ -299,7 +331,7 @@ function addRow(tableId, numColumns) {
     rowData[tableId].push({
         rowIndex: newRow.rowIndex,
         values: Array.from(newRow.cells).map(cell => {
-            var inputElement = cell.querySelector('input');
+            var inputElement = cell.querySelector('input, select');
             return inputElement ? inputElement.value : '';  // Check if input exists
         })
     });
@@ -326,102 +358,189 @@ document.getElementById('search-input').addEventListener('input', function() {
         }
     }
 });
+/////////////////////////////////////////////////////////////////////////
+
+
+// Track the selected row ID
+let selectedRowId = null;
+
+// Function to select row and change background color to green
+$(document).on('click', '#tableBody-1 tr', function() {
+    // Remove highlight from previously selected row
+    $('#tableBody-1 tr').removeClass('selected-row');
+    
+    // Add highlight (green background) to the clicked row
+    $(this).addClass('selected-row');
+    
+    // Get the row ID from data-row-id attribute
+    selectedRowId = $(this).data('row-id');
+    
+    // Log the selected row ID to the console
+    console.log("Selected Row ID:", selectedRowId);
+
+    // Enable inline editing of cells in the selected row
+    $(this).find('td').each(function(index) {
+        // Check if the cell is not already in edit mode
+        if (!$(this).hasClass('editing')) {
+            // For the Range column (6th cell, index 5)
+            if (index === 5) {
+                const selectRange = document.createElement('select');
+                selectRange.style.width = '100%';
+                selectRange.style.margin = '0px';
+                selectRange.innerHTML = `
+                    <option value="">Select Range</option>
+                    <option value="± 1 mm">± 1 mm</option>
+                    <option value="± 2 mm">± 2 mm</option>
+                    <option value="± 20 um">± 20 um</option>
+                    <option value="± 40 um">± 40 um</option>
+                `;
+                
+                // Set the selected option based on the existing cell value
+                selectRange.value = $(this).text().trim();
+                $(this).html(selectRange);
+            }
+            // For the Channels column (8th cell, index 7)
+            else if (index === 7) {
+                const selectChannels = document.createElement('select');
+                selectChannels.style.width = '100%';
+                selectChannels.style.margin = '0px';
+                selectChannels.innerHTML = `
+                    <option value="">Select Channels</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                `;
+                
+                // Set the selected option based on the existing cell value
+                selectChannels.value = $(this).text().trim();
+                $(this).html(selectChannels);
+            } 
+            // For other cells, including the first column (inward_no)
+            else {
+                const cellValue = $(this).text().trim();
+                $(this).html(`<input type="text" value="${cellValue}" class="edit-cell">`);
+            }
+            $(this).addClass('editing');  // Mark the cell as being edited
+        }
+    });
+});
+
+// Function to collect the input values correctly
+function collectData() {
+    let tableRows = [];
+    $('#tableBody-1 tr').each(function() {
+        var row = $(this);
+        var rowData = {
+            inward_no: row.find('td:nth-child(1) input').length ? row.find('td:nth-child(1) input').val() : row.find('td:nth-child(1)').text().trim(),
+            item: row.find('td:nth-child(2) input').val(),
+            hsn: row.find('td:nth-child(3) input').val(),
+            srNo: row.find('td:nth-child(4) input').val(),
+            idNo: row.find('td:nth-child(5) input').val(),
+            range: row.find('td:nth-child(6) select').val(),
+            make: row.find('td:nth-child(7) input').val(),
+            channels: row.find('td:nth-child(8) select').val()
+        };
+        
+        // Only push rows with a valid inward_no or item value to avoid empty entries
+        if (rowData.inward_no || rowData.item) {
+            tableRows.push(rowData);
+        }
+    });
+
+    // Log the collected data to the console
+    console.log("Collected Data:", tableRows);
+    
+    return tableRows;
+}
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////
 
 $(document).ready(function() {
     $('#submit-btn').click(function() {
-        // Collect input values
-        var customerName = $('#search-input').val();
-        var woDate = $('#wo_date').val();
-        var workOrderNo = $('#work_order_no').val();
-        var customerPoNo = $('#customer_po_no').val();
-        var customerRefDate = $('#customer_ref_date').val();
-        var orderType = $('#next_calibration').val();
-        var customerAddress = $('#customer_address').val();
+    // Collect input values
+    var customerName = $('#search-input').val();
+    var woDate = $('#wo_date').val();
+    var workOrderNo = $('#work_order_no').val();
+    var customerPoNo = $('#customer_po_no').val();
+    var customerRefDate = $('#customer_ref_date').val();
+    var orderType = $('#next_calibration').val();
+    var customerAddress = $('#customer_address').val();
 
-        // Collect table row data
-        var tableRows = [];
-        $('#tableBody-1 tr').each(function() {
-            var row = $(this);
-            
-            // Extract range value along with ± prefix and um suffix
-            var rangeInput = row.find('td:nth-child(6) input').val();
-            var rangeValue = '±' + rangeInput + ' um';  // Combine the prefix, value, and suffix
+   
+    // Use the collectData function to get table row data
+    const tableRows = collectData(); // Call the collectData function
+    
+    // Bundle all data into one JSON object
+    var formData = {
+        customerName: customerName,
+        woDate: woDate,
+        workOrderNo: workOrderNo,
+        customerPoNo: customerPoNo,
+        customerRefDate: customerRefDate,
+        orderType: orderType,
+        customerAddress: customerAddress,
+        items: tableRows
+    };
 
-            var rowData = {
-                item: row.find('td:nth-child(2) input').val(),
-                hsn: row.find('td:nth-child(3) input').val(),
-                srNo: row.find('td:nth-child(4) input').val(),
-                idNo: row.find('td:nth-child(5) input').val(),
-                range: rangeValue,  // Use the combined range with prefix and suffix
-                make: row.find('td:nth-child(7) input').val()
-            };
-            tableRows.push(rowData);
-        });
+    console.log("The data being sent to the backend (views.py):", formData);
 
-        // Bundle all data into one JSON object
-        var formData = {
-            customerName: customerName,
-            woDate: woDate,
-            workOrderNo: workOrderNo,
-            customerPoNo: customerPoNo,
-            customerRefDate: customerRefDate,
-            orderType: orderType,
-            customerAddress: customerAddress,
-            items: tableRows
-        };
+    // CSRF token
+    const csrftoken = getCookie('csrftoken');
 
-        console.log("The data being sent to the backend (views.py):", formData);
+    // Send data using Fetch API
+    fetch('/inward/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        showNotification('Data saved successfully', true);
 
-         // CSRF token
-         const csrftoken = getCookie('csrftoken');
+        // Adjust this part to check for duplicates based on specific fields
+        if (data.skipped_items && data.skipped_items.length > 0) {
+            let skippedItems = data.skipped_items.map(item => item.srNo).join(', ');
+            alert('The following items with the same Serial No., ID No., and HSN code were not saved again: ' + skippedItems);
 
-        // Send data using Fetch API
-        fetch('/inward/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken // Use Django's CSRF token if needed
-            },
-            body: JSON.stringify(formData) // Send the formData as JSON
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Return the response JSON if successful
-        })
-        .then(data => {
-            console.log('Success:', data);
-            showNotification('Data saved successfully', true); // Show success notification
+            // Remove the rows with skipped items from the table based on these fields
+            data.skipped_items.forEach(function(skippedItem) {
+                $('#tableBody-1 tr').each(function() {
+                    var row = $(this);
+                    var srNo = row.find('td:nth-child(4) input').val();
+                    var idNo = row.find('td:nth-child(5) input').val();
 
-            // Check for skipped items and display an alert if any
-            if (data.skipped_items && data.skipped_items.length > 0) {
-                let skippedItems = data.skipped_items.map(item => item.item).join(', ');
-                alert('The following items were already saved and were not saved again: ' + skippedItems);
-
-                // Remove the rows with skipped items from the table
-                data.skipped_items.forEach(function(skippedItem) {
-                    $('#tableBody-1 tr').each(function() {
-                        var row = $(this);
-                        var itemValue = row.find('td:nth-child(2) input').val(); // Adjust selector as per item column
-
-                        // If item in the row matches the skipped item, remove the row
-                        if (itemValue === skippedItem.item) {
-                            row.remove();
-                        }
-                    });
+                    if (srNo === skippedItem.srNo && idNo === skippedItem.idNo ) {
+                        row.remove();
+                    }
                 });
-            }
-
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Error saving data: ' + error.message, false); // Show error notification
-        });
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error saving data: ' + error.message, false);
     });
 });
+
+});
+
 
 
 // Function to get the CSRF token
@@ -448,8 +567,8 @@ function fetchWorkOrders() {
     const workOrderInput = $('#work_order_no'); // Reference to the work order input field
 
     // Clear the work order input field and datalist
-    workOrderInput.val(''); // Clear the work order input field
-    workOrderDatalist.empty(); // Clear previous work order options
+    // workOrderInput.val(''); // Clear the work order input field
+    // workOrderDatalist.empty(); // Clear previous work order options
 
     // Get the selected customer name
     const inputValue = customerInput.val(); 
@@ -523,14 +642,15 @@ $(document).ready(function() {
                         if (response.items) {
                             response.items.forEach((item, index) => {
                                 // Assuming `item.id_no` is a unique identifier for each row
-                                const row = `<tr data-row-id="${item.id_no}">
-                                    <td>${index + 1}</td>
+                                const row = `<tr data-row-id="${item.inward_no}">
+                                    <td>${item.inward_no}</td>
                                     <td>${item.item}</td>
                                     <td>${item.hsn}</td>
                                     <td>${item.sr_no}</td>
                                     <td>${item.id_no}</td>
                                     <td>${item.range}</td>
                                     <td>${item.make}</td>
+                                    <td>${item.channels}</td>
                                 </tr>`;
                                 tableBody.append(row);
                             });
@@ -547,25 +667,40 @@ $(document).ready(function() {
     });
 });
 
+///////////////////////////////////////////////////////////////////////
+
+$(document).ready(function() {
+    $('#create_btn').on('click', function() {
+         // Clear all form input values
+         $('#search-input').val('');
+        $('#work_order_no').val('');
+        $('#wo_date').val('');
+        $('#customer_po_no').val('');
+        $('#customer_ref_date').val('');
+        $('#customer_address').val('');
+        $('#next_calibration').prop('selectedIndex', 0); // Reset the select to the first option
+        $('#tableBody-1').empty(); // Clear all table rows
+
+        $.ajax({
+            url: '{% url "inward" %}?generate_inward_no=true',  // Pass generate_inward_no in the URL
+            method: 'GET',
+            success: function(response) {
+                if (response.new_inward_no) {
+                    $('#work_order_no').val(response.new_inward_no);  // Set the new inward_no
+                } else {
+                    alert('Could not generate new inward number.');
+                }
+            },
+            error: function() {
+                alert('Error occurred while generating inward number.');
+            }
+        });
+    });
+});
+
+
 ////////////////////////////////////////////////////////////////////////
 
-// Track the selected row ID
-let selectedRowId = null;
-
-// Function to select row and change background color to green
-$(document).on('click', '#tableBody-1 tr', function() {
-    // Remove highlight from previously selected row
-    $('#tableBody-1 tr').removeClass('selected-row');
-    
-    // Add highlight (green background) to the clicked row
-    $(this).addClass('selected-row');
-    
-    // Get the row ID from data-row-id attribute
-    selectedRowId = $(this).data('row-id');
-    
-    // Log the selected row ID to the console
-    console.log("Selected Row ID:", selectedRowId);
-});
 
 
 $('#delete-btn').on('click', function() {
@@ -654,6 +789,13 @@ $('#delete-btn').on('click', function() {
     }, 2000);
 }
 
+
+window.addEventListener('DOMContentLoaded', (event) => {
+            var inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.setAttribute('autocomplete', 'off');
+            });
+        });
 
 
 </script>
