@@ -312,17 +312,34 @@ th, td {
     text-align: center;
 }
 
+#notification {
+    display: none;
+    position: fixed;    
+    top: 40%;
+    left: 40%;
+    height: 120px;
+    width: 350px;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    border: 2px solid black;
+}
+
     </style>
 </head>
 <body>
-    
+    <div id="notification"></div>
     <div class="a4-container">
         
         <div class="a4-sheet" id="a4-content">
         <img id="sai_image" src="{% static 'images/sai.jpg' %}" alt="SAI Accurate Instruments">
     
         <div class="header"><strong>SAI ACCURATE INSTRUMENTS</strong></div>
-        <div class="subheader">(Any Array Of Metrology Products)</div>
+        <div class="subheader">(An Array Of Metrology Products)</div>
         
         <div class="contact-info">
             <p>54 GVT COMPLEX, NAZARATHPET, CHENNAI-600123<br>
@@ -885,7 +902,7 @@ function downloadPDF() {
     .then(response => response.json())
     .then(data => {
         if (data.status === "success") {
-            console.log("Data saved successfully. Proceeding with PDF generation...");
+            showNotification("Data saved successfully. Proceeding with PDF generation...", true);
 
             const certificateNo = formData.certificate_num || 'default-filename';
 
@@ -905,10 +922,10 @@ function downloadPDF() {
             } else if (element1) {
                 html2pdf().from(element1).set(opt).save();
             } else {
-                console.warn('No content found for PDF generation');
+                showNotification('No content found for PDF generation', false);
             }
         } else {
-            console.error("Error saving data:", data.message);
+            showNotification("Error saving data:", data.message, false);
         }
     })
     .catch(error => console.error("Error:", error));
@@ -1186,6 +1203,39 @@ calculatedData.forEach((data, index) => {
     }
 });
 
+}
+
+
+
+ // Function to show a notification with an OK button
+ function showNotification(message, isSuccess) {
+    var notificationElement = document.getElementById('notification');
+    notificationElement.textContent = message;
+
+    if (isSuccess) {
+        notificationElement.style.backgroundColor = 'lightgreen';
+    } else {
+        notificationElement.style.backgroundColor = 'coral';
+    }
+
+    // Center the notification vertically and horizontally
+    notificationElement.style.display = 'flex';
+    notificationElement.style.flexDirection = 'column';
+    notificationElement.style.alignItems = 'center';
+    notificationElement.style.textAlign = 'center';
+    notificationElement.style.justifyContent = 'center';
+    notificationElement.style.top = '50%';
+    notificationElement.style.left = '50%';
+    notificationElement.style.transform = 'translate(-50%, -50%)';
+    notificationElement.style.zIndex = '1000';
+
+    // Display the notification
+    notificationElement.style.display = 'block';
+
+    // Hide the notification after 2 seconds
+    setTimeout(function() {
+        notificationElement.style.display = 'none';
+    }, 3000);
 }
 
 

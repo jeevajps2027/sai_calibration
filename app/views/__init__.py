@@ -5,3 +5,4 @@ from .inward import inward
 from .master import master
 from .output import output
 from .report import report
+from .invoice import invoice

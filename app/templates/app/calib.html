@@ -595,12 +595,19 @@ function fetchWorkOrders() {
             'csrfmiddlewaretoken': '{{ csrf_token }}' // Include CSRF token for Django
         },
         success: function(data) {
-            // Check if any work orders were returned
+            console.log('Received data:', data);
+           // Check if any work orders were returned
             if (data.length > 0) {
+                console.log('Work orders found:', data); // Log work orders if found
+
                 // Populate the select with the received work orders
                 $.each(data, function(index, workOrder) {
-                    const option = $('<option>').val(workOrder.work_order_no).text(workOrder.work_order_no);
-                    workOrderSelect.append(option);
+                    console.log('Processing work order:', workOrder); // Log each work order as it's processed
+                    // Check if the work order already exists in the dropdown
+                    if (workOrderSelect.find(`option[value="${workOrder}"]`).length === 0) {
+                        const option = $('<option>').val(workOrder).text(workOrder);
+                        workOrderSelect.append(option); // Append the option to the select box
+                    }
                 });
 
                 // Automatically trigger the change event on the work order select field to load items for the first work order

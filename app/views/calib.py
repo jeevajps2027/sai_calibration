@@ -8,23 +8,33 @@ from app.models import Customer, EngineerManagerDetails, MainCalibration, Settin
 def calib(request):
     if request.method == 'POST':
         customer_name = request.POST.get('customer_name')
+        
         if customer_name:
             # Get distinct work order numbers and inward numbers for the customer
-            work_orders = WorkOrder.objects.filter(customer_name=customer_name).distinct().values('work_order_no')
-            inward_no_list = WorkOrder.objects.filter(customer_name=customer_name).distinct().values_list('inward_no', flat=True)
+            work_orders = WorkOrder.objects.filter(customer_name=customer_name).distinct().values('work_order_no', 'inward_no')
+            print("work_orders", work_orders)
 
-            # Check if all inward_no values are in MainCalibration
+            # Extract all inward_no values for the customer
+            inward_no_list = [work_order['inward_no'] for work_order in work_orders]
+            print("inward_no_list", inward_no_list)
+
+            # Get all inward_no values that exist in the MainCalibration table
             main_calibration_inward_nos = MainCalibration.objects.values_list('inward_no', flat=True)
-            all_inward_in_main_calibration = all(inward_no in main_calibration_inward_nos for inward_no in inward_no_list)
+            print("main_calibration_inward_nos", main_calibration_inward_nos)
 
-            # If all inward_no are in MainCalibration, do not send work orders
-            if all_inward_in_main_calibration:
-                return JsonResponse([], safe=False)  # Send an empty response
+            # Check if any inward_no from the WorkOrder table is missing in MainCalibration
+            missing_inward_nos = [inward_no for inward_no in inward_no_list if inward_no not in main_calibration_inward_nos]
+            print("missing_inward_nos", missing_inward_nos)
 
-            # If any inward_no is missing in MainCalibration, send work orders to the frontend
-            work_order_list = list(work_orders)
-            print("work_order_list", work_order_list)
-            return JsonResponse(work_order_list, safe=False)
+            # If there are missing inward_no values, send the corresponding work orders to the frontend
+            if missing_inward_nos:
+                # Filter work orders that have missing inward_no values
+                work_order_list = [work_order['work_order_no'] for work_order in work_orders if work_order['inward_no'] in missing_inward_nos]
+                print("work_order_list to send:", work_order_list)
+                return JsonResponse(work_order_list, safe=False)
+            
+            # If no inward_no is missing in MainCalibration, send an empty response
+            return JsonResponse([], safe=False)
 
     elif request.method == 'GET':
         work_order_no = request.GET.get('work_order_no')  # Fetch work order number from GET request

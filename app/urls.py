@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import path,include
 from django.conf.urls.static import static
-from .views import login,master,index,calib,output,inward,report
+from .views import login,master,index,calib,output,inward,report,invoice
 
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path('output/',output,name="output"),
     path('inward/',inward,name="inward"),
     path('report/',report,name="report"),
+    path('invoice/',invoice,name="invoice"),
     ]
 
 if settings.DEBUG:

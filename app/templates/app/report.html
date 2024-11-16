@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-    <title>A4 Sheet</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Report Page</title>
     <style>
 
 #a4-content,#a4-content1 {
@@ -350,7 +352,7 @@ th, td {
         <img id="sai_image" src="{% static 'images/sai.jpg' %}" alt="SAI Accurate Instruments">
     
         <div class="header"><strong>SAI ACCURATE INSTRUMENTS</strong></div>
-        <div class="subheader">(Any Array Of Metrology Products)</div>
+        <div class="subheader">(An Array Of Metrology Products)</div>
         
         <div class="contact-info">
             <p>54 GVT COMPLEX, NAZARATHPET, CHENNAI-600123<br>
@@ -440,7 +442,6 @@ th, td {
                     </tr>
                 </thead>
                 <tbody id="tableBody-1" style="display: none;">
-                    {% for data in SettingPlugTrace_value %}
                     <tr data-id="{{ data.id }}">
                         <td>{{ forloop.counter }}</td>
                         <td><input type="text" value="{{ data.master_name }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
@@ -449,19 +450,6 @@ th, td {
                         <td><input type="text" value="{{ data.valid_upto }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
                         <td><input type="text" value="{{ data.traceability }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
                     </tr>
-                    {% endfor %}
-                </tbody>
-                <tbody id="tableBody-2" style="display: none;" >
-                    {% for data in SettingRingTrace_value %}
-                    <tr data-id="{{ data.id }}">
-                        <td>{{ forloop.counter }}</td>
-                        <td><input type="text" value="{{ data.master_name }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                        <td><input type="text" value="{{ data.id_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
-                        <td><input type="text" value="{{ data.calibration_report_no }}" style="width: 100%; box-sizing: border-box; margin-left: 0px;text-align: center;"></td>
-                        <td><input type="text" value="{{ data.valid_upto }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                        <td><input type="text" value="{{ data.traceability }}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                    </tr>
-                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -483,30 +471,9 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-1" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-1" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                    
             </table>
             
         </div> 
@@ -535,7 +502,7 @@ th, td {
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
-    <div class="a4-sheet" id="a4-content1">
+    <div class="a4-sheet" id="a4-content1" style="margin-top: 20px;">
         <div class="container-7" style="margin-top: -10px;" id="container-7-2">
             <header style="text-align: center;font-weight: bold; margin-top: 0px;">CALIBRATION RESULT-2</header>
             <div class="subheader" style="font-size: 12px; font-weight: 500;margin-top: 0px;">(All Values are in mm)</div>
@@ -552,30 +519,9 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-2" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-2" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                   
             </table> 
         </div> 
 
@@ -596,30 +542,8 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-3" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-3" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
             </table> 
         </div> 
 
@@ -640,30 +564,8 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-4" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-4" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
             </table> 
         </div> 
 
@@ -684,30 +586,8 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-5" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-5" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
             </table> 
         </div> 
 
@@ -728,30 +608,9 @@ th, td {
                     </tr>
                 </thead>
                     <tbody id="tableBody-3-6" style="display: none;">
-                        {% for data in SettingPlugMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
 
-                    <tbody id="tableBody-4-6" style="display: none;" >
-                        {% for data in SettingRingMaster_value%}
-                        <tr data-id="{{ data.id }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td><input type="text" value="{{ data.parameter_name }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.ref_size }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td><input type="text" value="{{ data.nominal }}"style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                   
             </table> 
         </div> 
 
@@ -783,5 +642,219 @@ th, td {
     <button id="enter_btn" >ENTER</button>
 
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#enter_btn').on('click', function () {
+            const certificateNo = $('#search_box').val();
+
+            // Send AJAX POST request
+            $.ajax({
+                url: '/report/', // URL matching the Django URL pattern
+                type: 'POST',
+                data: {
+                    certificate_no: certificateNo,
+                    csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for security
+                },
+                success: function (response) {
+                    console.log('Main Calibration Data:', response.main_calibration);
+                    console.log('Equipments:', response.equipments);
+                    console.log('Results:', response.results);
+
+                    const mainCalibration = response.main_calibration;
+
+                    // Populate fields with the data
+                    $('#certificate_no_op').val(mainCalibration.certificate_num);
+                    $('#date_of_issue_op').val(mainCalibration.date_of_issue);
+                    $('#date_of_calib_op').val(mainCalibration.date_of_calibration);
+                    $('#next_calibration_op').val(mainCalibration.next_calibration);
+                    $('#container3_textarea').val(mainCalibration.customer_address);
+                    $('#range_op').val(mainCalibration.range);
+                    $('#lc_op').val(mainCalibration.least_count);
+                    $('#identification_no_op').val(mainCalibration.identification_no);
+                    $('#si_no_op').val(mainCalibration.si_no);
+                    $('#make_op').val(mainCalibration.make);
+                    $('#customer_ref_op').val(mainCalibration.customer_ref);
+                    $('#date_op').val(mainCalibration.date_calib);
+                    $('#inward_no_op').val(mainCalibration.inward_no);
+                    $('#date_of_receipt_op').val(mainCalibration.date_of_receipt);
+                    $('#location_op').val(mainCalibration.location);
+                    $('#calib_no_op').val(mainCalibration.calib_procedure_no);
+                    $('#environment_op').val(mainCalibration.environment);
+                    $('#work_order_no_op').val(mainCalibration.work_order);
+                    $('#uncertainity_op').val(mainCalibration.uncertainty);
+                    $('.calibration_engineer_op').val(mainCalibration.calib_engineer);
+                    $('.quality_manager_op').val(mainCalibration.quality_manager);
+
+                    // Equipments - Dynamically update the table
+                const equipments = response.equipments || [];
+
+                // Empty table body before adding new rows
+                $('#tableBody-1').empty();
+
+                // Loop through the equipments array and populate the table
+                equipments.forEach(function (equipment, index) {
+                    const rowHtml = `
+                        <tr data-id="${equipment.id}">
+                            <td>${index + 1}</td>
+                            <td><input type="text" value="${equipment.master_name}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="${equipment.id_no}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="${equipment.calibration_no}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="${equipment.valid_upto}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            <td><input type="text" value="${equipment.traceability}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                        </tr>
+                    `;
+                    $('#tableBody-1').append(rowHtml); // Append the row to the table
+                });
+
+                // Show the table if it was hidden
+                $('#tableBody-1').show();
+
+                // Now, handle the results to populate the other tables dynamically
+                const results = response.results || [];
+
+                // Initialize a set to track all container IDs present in the results
+                const containerIds = new Set();
+
+                // Collect all container IDs from the results
+                results.forEach(function (result) {
+                    containerIds.add(result.container_id);
+                });
+
+                // Iterate over all possible container elements (e.g., container-7-1, container-7-2, etc.)
+                $('[id^="container-7-"]').each(function () {
+                    const containerElement = $(this); // Current container element
+                    const containerId = containerElement.attr('id'); // Extract its ID
+
+                    if (containerIds.has(containerId)) {
+                        containerElement.show(); // Show the container if it exists in results
+                    } else {
+                        containerElement.hide(); // Hide the container if it's not in results
+                    }
+                });
+
+                // Conditionally show or hide the <div> #a4-content1
+                if (containerIds.size === 1 && containerIds.has('container-7-1')) {
+                    $('#a4-content1').css('visibility', 'hidden'); // Hide #a4-content1 if only container-7-1 is present
+                } else {
+                    $('#a4-content1').css('visibility', 'visible'); // Show #a4-content1 otherwise
+                }
+
+                // Conditionally show or hide the <div> #footer_endCertificate (container-8)
+                if (containerIds.size > 1) {
+                    $('#footer_endCertificate').css('visibility', 'hidden'); // Hide footer if other containers exist
+                } else {
+                    $('#footer_endCertificate').css('visibility', 'visible'); // Show footer only if no other containers exist
+                }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+                // Create an object to store indexes for each container
+                let containerIndexes = {};
+
+                // Loop through results and populate the respective table bodies
+                results.forEach(function (result) {
+                    // Extract container_id (e.g., 'container-7-1')
+                    const containerId = result.container_id;
+
+                    // Extract the container number from the container_id (the last part after '-')
+                    const containerNumber = containerId.split('-')[2];
+
+                    // Initialize the index for this container if not already done
+                    if (!containerIndexes[containerNumber]) {
+                        containerIndexes[containerNumber] = 1;  // Start from 1 for each container
+                    }
+
+                    // Get the current index for this container and increment it for the next row
+                    const currentIndex = containerIndexes[containerNumber];
+
+                    // Increment the index for the next row of the same container
+                    containerIndexes[containerNumber]++;
+
+                    // Construct table body ID using the extracted container number
+                    const tableId = `#tableBody-3-${containerNumber}`; 
+
+                    // Check if the table exists
+                    if ($(tableId).length > 0) {
+                        // Create table row with the correct index for each container
+                        const rowHtml = `
+                            <tr data-id="${result.id}">
+                                <td>${currentIndex}</td> 
+                                <td><input type="text" value="${result.parameter}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                                <td><input type="text" value="${result.ref_size}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                                <td><input type="text" value="${result.nominal}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                                <td><input type="text" value="${result.observation_size}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                                <td><input type="text" value="${result.error}" style="width: 100%; box-sizing: border-box;margin-left: 0px;text-align: center;"></td>
+                            </tr>
+                        `;
+                        // Append the row to the corresponding table body
+                        $(tableId).append(rowHtml);
+
+                        // Show the table if it was hidden
+                        $(tableId).show();
+                    } else {
+                        console.log("Table not found: ", tableId); // Debugging if the table doesn't exist
+                    }
+                });
+                        
+                                
+                },
+                error: function (xhr) {
+                    console.error('Error:', xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+ 
+   // Select all elements with the class "scale-footer"
+   const footers = document.getElementsByClassName('scale-footer');
+
+// Loop through each footer element
+for (const footer of footers) {
+    // Calculate the width of the footer
+    const footerWidth = footer.offsetWidth;
+
+    // Set the width of each line and spacing between lines (adjust as needed)
+    const lineWidth = 2; // Width of each scale line
+    const lineMargin = 5; // Spacing between lines
+
+    // Total space occupied by each line including margin
+    const lineSpace = lineWidth + lineMargin;
+
+    // Calculate how many lines fit in the footer based on its width
+    const totalLines = Math.floor(footerWidth / lineSpace);
+
+    // Create scale lines dynamically to cover the width of the footer
+    for (let i = 1; i <= totalLines; i++) {
+        const line = document.createElement('span'); // Create a span element for each line
+
+        // Apply alternating height styles for a ruler-like effect
+        if (i % 5 === 0) {
+            line.style.height = '20px';  // Tall line for every 5th line
+        } else {
+            line.style.height = '10px';  // Shorter line for others
+        }
+
+        // Common styles for all lines
+        line.style.width = `${lineWidth}px`;  // Set width of each line
+        line.style.backgroundColor = '#339b8a';  // Line color
+        line.style.display = 'inline-block';  // Ensure the lines are inline
+        line.style.marginRight = `${lineMargin}px`;  // Spacing between the lines
+        line.style.verticalAlign = 'bottom';  // Align at the bottom of the footer
+
+        // Append each line to the current footer
+        footer.appendChild(line);
+    }
+}
+</script>
+
+
+
+
 </body>
 </html>

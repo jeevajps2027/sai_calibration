@@ -2,7 +2,7 @@ import json
 import re
 from django.http import JsonResponse
 from django.shortcuts import render
-from app.models import Customer, WorkOrder
+from app.models import Customer, MainCalibration, WorkOrder
 
 
 def inward(request):
@@ -133,6 +133,7 @@ def inward(request):
 
                 # Loop through each work order item and append it to the items list
                 for work_order in work_orders:
+                    is_in_main_calibration = MainCalibration.objects.filter(inward_no=work_order.inward_no).exists()
                     data['items'].append({
                         'inward_no': work_order.inward_no,
                         'item': work_order.item,
@@ -141,7 +142,8 @@ def inward(request):
                         'id_no': work_order.id_no,
                         'range': work_order.range,
                         'make': work_order.make,
-                        'channels':work_order.channels
+                        'channels': work_order.channels,
+                        'is_in_main_calibration': is_in_main_calibration
                     })
 
                 return JsonResponse(data)
