@@ -6,142 +6,213 @@ Index Page
 {% block content %}
 <style>
 
-.outer-wrapper {
-  position: relative;
-  padding: 10px; /* Padding for spacing */
-  border: 2px dotted white; /* Static white dotted border */
-  background-image: linear-gradient(90deg, rgb(248, 195, 195) 50%, transparent 0),
-                    linear-gradient(90deg, rgb(201, 206, 238) 50%, transparent 0),
-                    linear-gradient(0deg, rgb(250, 230, 230) 50%, transparent 0),
-                    linear-gradient(0deg, white 50%, transparent 0);
-  background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
-  background-repeat: repeat;
-  background-position: 0 0, 100% 0, 0 0, 0 100%;
-  animation: moveBorder 25s linear infinite; /* Slower speed with 10s duration */
+body {
+  font-family: 'Arial', sans-serif; /* Simple and modern font */
+  background-color: #FAF9F6; /* Ivory background */
+  color: #333; /* Dark text color for good readability */
+  margin: 0;
+  padding: 0;
+}
+/* Container Styles */
+.container1 {
+  height: 200px;
+  width: 100%;
+  background-color: #FF6F61; /* Soft Coral */
+  color: white; /* White text for contrast */
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.container1_1{
+  margin-top: -70px;
 }
 
-@keyframes moveBorder {
-  0% {
-    background-position: 0 0, 100% 0, 0 0, 0 100%;
-  }
-  100% {
-    background-position: 100% 0, 0 0, 0 100%, 0 0;
-  }
+#sai_image {
+  height: 150px;
+  width: 120px;
+  margin-left: 25%; 
+  outline: 5px solid white;
+  outline-offset: 5px;
+  display: block; 
+  margin-top: -170px;
 }
 
-/* Hover effect for image-wrapper */
-.image-wrapper:hover {
-  /* Change background color based on original background color */
-  background-color: rgba(246, 6, 246, 0.8); /* Example for pink */
+
+.header {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  color: white; /* Text color */
+  text-shadow: 
+    -2px -2px 0 #120e0e,  /* Top-left shadow */
+    2px -2px 0 #120e0e,   /* Top-right shadow */
+    -2px 2px 0 #120e0e,   /* Bottom-left shadow */
+    2px 2px 0 #120e0e;    /* Bottom-right shadow */
 }
 
-/* Scale effect on the image */
-.image-wrapper:hover img {
-  transform: scale(1.1); /* Scale the image slightly */
+.subheader {
+  font-size: 25px;
+  text-align: center;
+  font-weight: bold;
+  color:rgb(0, 0, 0);
+  font-family: 'Times New Roman', Times, serif;
 }
 
-/* Additional hover background colors for different wrappers */
-.outer-wrapper:nth-child(2) .image-wrapper:hover {
-  background-color: rgba(0, 183, 255, 0.8); /* Example for blue */
+.contact-info {
+  font-size:19px;
+  text-align: center;
+}
+#logout_btn{
+  height: 50px;
+  width: 130px;
+  background-color:red;
+  color: white;
+  font-weight: bold;
+  margin-left: 60%;
+  margin-top: 20px;
+ border: 2px solid black;
+}
+.container2 {
+  height: 430px;
+  width: 25%;
+  background-color: #4C9A8F; /* Muted Teal */
+  color: white; /* White text for contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
 }
 
-.outer-wrapper:nth-child(3) .image-wrapper:hover {
-  background-color: rgba(255, 0, 0, 0.8); /* Example for red */
+
+
+
+
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 20px; /* Space between images */
+  justify-items: center; /* Center images horizontally */
 }
 
-.outer-wrapper:nth-child(4) .image-wrapper:hover {
-  background-color: rgba(6, 246, 22, 0.8); /* Example for green */
+.image-item {
+  text-align: center;
 }
 
-    .outer-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: -1;
-    }
+.image-item img {
+  width: 80px; /* Adjust size of the image */
+  height: 80px; /* Maintain circular shape */
+  border-radius: 50%; /* Make images round */
+  object-fit: cover; /* Ensure image fits in the circle */
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  outline: 5px solid white;
+  outline-offset: 5px;
+  margin-top: 40px;
+}
 
-    .image-wrapper {
-      text-align: center;
-      position: relative;
-      background-color: #fff;
-      padding: 10px;
-      border: 5px solid black; /* Black border around the image */
-    }
+.image-item p {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white; /* Text color */
+}
 
-    img {
-      width: 150px; /* Image width */
-      height: 150px; /* Image height */
-      filter: grayscale(50%);
-      transition: 0.3s;
-    }
 
-    img:hover {
-      filter: grayscale(0%);
-    }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgb(216, 165, 237);
-    }
 
-    .image-container {
-      display: flex;
-      flex-direction: column;
-      gap: 50px;
-    }
 
-    .image-row {
-      display: flex;
-      gap: 60px;
-    }
+.container3 {
+  height: 430px;
+  width: 50%;
+  background-color: #D1C6E1; /* Light Lavender */
+  color: #333; /* Dark text for good readability */
+  padding: 30px;
+  margin-left: 25%;
+  margin-top: -430px;
+ 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .image-label {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #333;
-    }
+.container4 {
+  height: 430px;
+  width: 25%;
+  background-color: #D3D3D3; /* Light Gray */
+  color: #333; /* Dark text for good readability */
+  padding: 30px;
+  margin-left: 75%;
+  margin-top: -430px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.zoomable {
+  transition: transform 0.3s ease; /* Smooth zoom-out effect */
+}
+
+.zoomable:hover {
+  transform: scale(0.9); /* Zoom out slightly */
+}
 
 </style>
-
-<div class="image-container">
-  <div class="image-row">
-    <div class="outer-wrapper">
-      <a href="/master/">
-      <div class="image-wrapper" style="background-color: rgb(246, 6, 246);"> 
-          <img src="{% static 'images/trace.png' %}">
-        <div class="image-label"><b>TRACEABILITY</b></div>
-      </div></a>
-    </div>
-    <div class="outer-wrapper">
-      <a href="/calib/">
-      <div class="image-wrapper" style="background-color: rgb(0, 183, 255);">
-          <img src="{% static 'images/calibration.png' %}">
-        <div class="image-label"><b>CALIBRATIONS</b></div>
-      </div></a>
+<div class="container1">
+  <button type="submit" id="logout_btn">Log Out</button>
+  
+  <div class="container1_1">
+    <div class="header">SAI ACCURATE INSTRUMENTS</div>
+    <div class="subheader">(An Array Of Metrology Products)</div>
+    <div class="contact-info">
+      <p>
+        54 GVT COMPLEX, NAZARATHPET, CHENNAI-600123<br>
+        E-Mail: saiaccurate@gmail.com | www.saiaccurate.com<br>
+        PH: 9344438999 / 97 87 37 5999
+      </p>
     </div>
   </div>
-  <div class="image-row">
-    <div class="outer-wrapper">
-      <a href="//">
-      <div class="image-wrapper" style="background-color: red;">
-          <img src="{% static 'images/due_date.png' %}">
-        <div class="image-label"><b>DUE DATE</b></div>
-      </div></a>
+  <img id="sai_image" src="{% static 'images/sai.jpg' %}" alt="SAI Accurate Instruments">
+
+  
+</div>
+
+<div class="container2">
+  <div class="image-grid">
+    <div class="image-item">
+      <a href="{% url 'master' %}">
+      <img src="{% static 'images/people.png' %}"  alt="Image 1" class="zoomable">
+      </a>
+      <p>Customer</p>
     </div>
-    <div class="outer-wrapper">
-      <div class="image-wrapper" style="background-color: rgb(6, 246, 22);">
-        <img>
-        <div class="image-label">Image 4</div>
-      </div>
+    <div class="image-item">
+      <a href="{% url 'inward' %}">
+      <img src="{% static 'images/inward1.png' %}" alt="Image 2" class="zoomable">
+      </a>
+      <p>Inward</p>
+    </div>
+    <div class="image-item">
+      <a href="{% url 'calib' %}">
+      <img src="{% static 'images/measurement.png' %}" alt="Image 3" class="zoomable">
+      </a>
+      <p>Calibrations</p>
+    </div>
+    
+    <div class="image-item">
+      <a href="{% url 'invoice' %}">
+      <img src="{% static 'images/invoice.png' %}" alt="Image 4" class="zoomable">
+      </a>
+      <p>Proforma Invoice</p>
+    </div>
+    <div class="image-item">
+      <a href="{% url 'report' %}">
+      <img src="{% static 'images/report.png' %}"  alt="Image 5" class="zoomable">
+      </a>
+      <p>Report</p>
+    </div>
+    <div class="image-item">
+      <a href="">
+      <img src="{% static 'images/deadline.png' %}"  alt="Image 6" class="zoomable">
+      </a>
+      <p>Due Date</p>
     </div>
   </div>
 </div>
+
+<div class="container3"></div>
+<div class="container4"></div>
 
 {% endblock content %}

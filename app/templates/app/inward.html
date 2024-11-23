@@ -170,7 +170,7 @@ th{
                         {% for customer in customer_value %}
                         <option value="{{ customer.customer_name }}" 
                         data-address="{{ customer.address }}" 
-                        data-primary-email="{{ customer.primary_email }}">
+                        data-primary-email="GST:{{ customer.gst_no }}">
                     </option>
                         {% endfor %}
                     </datalist>
@@ -200,7 +200,7 @@ th{
     <label for="wo_date"  style="margin-left: 160px;" >WO.DATE :</label>
     <input type="date" id="wo_date">
     
-    <button type="submit" id="print_preview"> PROFORMA INVOICE</button><br>
+    <button type="submit" id="print_preview"  onclick="redirectToInvoice()"> PROFORMA INVOICE</button><br>
 
     <label for="customer_po_no" style="margin-left: 30px;">CUSTOMER PO NO :</label>
     <input type="text" id="customer_po_no" >
@@ -248,6 +248,21 @@ th{
 </div>
 <script>
 
+
+function redirectToInvoice() {
+    const workOrderInput = document.getElementById('work_order_no');
+    const selectedValue = workOrderInput.value;
+
+    console.log("Selected Value:", selectedValue);
+    if (selectedValue) {
+        // Redirect to the "invoice/" page with the selected value as a query parameter
+        window.location.href = `/invoice/?work_order_no=${encodeURIComponent(selectedValue)}`;
+    } else {
+        alert('Please select or enter a WORK ORDER NO before proceeding.');
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 document.getElementById('refresh-btn1').addEventListener('click', function() {
     document.getElementById('search-input').value = '';  // Clears the date input field
 });
